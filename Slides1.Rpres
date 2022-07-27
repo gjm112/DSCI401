@@ -4,12 +4,9 @@ author: Dr. Gregory J. Matthews, Ph.D.
 date: Today
 autosize: true
 
-Introduction
-===
-Q: What are we going to do in this class?  
-A: Everything
 
-A question
+
+A Question
 ===
 [***What is Data Science?***](https://mdsr-book.github.io/mdsr2e/ch-prologue.html#what-is-data-science)
 
@@ -23,6 +20,11 @@ What is Data Science?
   
 3. Convert data to information
  - "the distinction between data and information is the raison d’etre of data science. Data scientists are people who are interested in converting the data that is now abundant into actionable information that always seems to be scarce"
+ 
+What is this class?
+===
+Q: What are we going to do in this class?  
+A: Everything
 
 
 Languages
@@ -40,9 +42,50 @@ IDEs
 - [Google Colab](https://colab.research.google.com)
 
 
-Slide With Plot
+Reproducible Research
 ========================================================
+- Source Control - [Github](github.com)
+- Reproducible documentation - [R Markdown](https://rmarkdown.rstudio.com/), [knitr](https://www.r-project.org/nosvn/pandoc/knitr.html), etc.
+ 
+Topics
+============
+1\. Basics of R  and Python
 
-```{r, echo=FALSE}
-plot(cars)
-```
+2\. Data Visualization
+
+3\. Data Summarization
+
+4\. Data Wrangling - Single Table
+
+5\. Data Wrangling - Multiple Tables
+
+6\. Working with tidy data
+
+7\. Data Ethics
+
+Topics
+============
+
+8\. Statistical concepts
+ - Sampling Distributions
+ - Bootstrapping
+ - Statistical Modeling
+ 
+9\. Intro to Predictive Modeling 
+
+10\. Supervised and Unsupervised Learning
+
+11\. Simulation 
+
+
+Topics
+============
+
+12\. Interactive Data Visualization
+ - Shiny
+ - plotly
+ - matplotlib
+ - seaborn
+ 
+13\. SQL and databases
+
