@@ -1,0 +1,48 @@
+DSCI401
+========================================================
+author: Dr. Gregory J. Matthews, Ph.D.
+date: Today
+autosize: true
+
+Introduction
+===
+Q: What are we going to do in this class?  
+A: Everything
+
+A question
+===
+[***What is Data Science?***](https://mdsr-book.github.io/mdsr2e/ch-prologue.html#what-is-data-science)
+
+What is Data Science?
+====
+
+1.  It's a science! 
+  - "a rigorous discipline combining elements of statistics and computer science, with roots in mathematics"
+2. Domain knowledge
+  - Business, Public Health, Sports, Astronomy, etc.
+  
+3. Convert data to information
+ - "the distinction between data and information is the raison d’etre of data science. Data scientists are people who are interested in converting the data that is now abundant into actionable information that always seems to be scarce"
+
+
+Languages
+========================================================
+
+What languages are we going to use?  
+- [R](https://www.r-project.org/)
+- [python](https://www.python.org/)
+
+
+IDEs
+========================================================
+
+- [R Studio](https://www.rstudio.com/)
+- [Google Colab](https://colab.research.google.com)
+
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
