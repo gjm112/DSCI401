@@ -71,6 +71,10 @@ is.na(x)
 #This is not what you want to do!
 x == NA
 
+#Pull out elements that are not missing
+x
+x[!is.na(x)]
+
 #Let's look at NaN
 x[2] <- 0 / 0
 x
@@ -108,16 +112,70 @@ z[1:4]
 str(z)
 
 #A character vector of numbers....
-x <- c("1","1","2","3","1","2")
+a <- c("1", "1", "2", "3", "1", "2")
 #I can't do this
-x + 1
-#But I can do this: 
-as.numeric(x) + 1
+a + 1
+#But I can do this:
+as.numeric(a) + 1
 
-#What about this? 
-x <- c("1","1","2","C","A","B")
+#What about this?
+b <- c("1", "1", "2", "C", "A", "B")
 #What will happen here?
-as.numeric(x) + 1
+as.numeric(b) + 1
+
+
+####################################
+#Factors
+####################################
+#R is a statistics language.
+#Factors show up all the time in statistics
+#So there is a factor class
+d <- factor(c("A", "A", "B", "C", "A", "B"))
+d
+
+#Display the factor levels
+levels(d)
+
+#These can be coerced to numeric
+#Be careful though!
+#This is the index of the level!
+#Not always what you want!
+as.numeric(d)
+
+#Think about this example
+y <- factor(c(100, 100, 200, 300, 100, 200))
+levels(y)
+
+#If you convert this to numeric, you'llget 1s, 2s, and 3s
+as.numeric(y)
+
+#If you want the LEVELS to be converted to numeric you need to do:
+as.numeric(as.character(y))
+
+#Or in tidyverse
+y %>% as.character %>% as.numeric
+
+###############################
+#Paste
+###############################
+#Paste joins character strings
+f <- c("x1", "x2", "x3", "x4", "x5")
+f
+
+#Instead of typing is all out, you can do
+f <- paste("x", 1:5, sep = "")
+f
+
+#Same thing: paste0 defaults to sep = ""
+f <- paste0("x", 1:5)
+f
+
+########################################
+#Matrices
+########################################
+#Matrices have two indexes
+#First index is rows
+#second index is columns
 
 
 
