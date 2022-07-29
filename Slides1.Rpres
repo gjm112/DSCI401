@@ -23,8 +23,8 @@ What is Data Science?
  
 What is this class?
 ===
-Q: What are we going to do in this class?  
-A: Everything
+Question - What are we going to do in this class?  
+Answer - Everything
 
 
 Languages
@@ -49,7 +49,11 @@ Reproducible Research
  
 Topics
 ============
-1\. Basics of R  and [Python](https://colab.research.google.com/drive/1yMjxaCJkCxVzF30IcqI6K9C8n2lKjqUm)
+1\. [Basics of R](https://github.com/gjm112/DSCI401/blob/main/R/Basics_of_R.R)  and [Python](https://colab.research.google.com/drive/1yMjxaCJkCxVzF30IcqI6K9C8n2lKjqUm)
+
+1a\. Python objects: [Sets and Dictionaries](https://colab.research.google.com/drive/1nmWys8jdgJfpGyZsmJr-bdMtxkufClEl), [Strings and Tuples](https://colab.research.google.com/drive/1J87N_1NerOLBLz4zxFL42nIsj5GmoNEt)
+
+1b\. R Objects: Vectors, Matrices, Arrays, Lists
 
 2\. Data Visualization
 
