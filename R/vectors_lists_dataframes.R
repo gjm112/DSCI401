@@ -1,6 +1,6 @@
-####################################
+########################################################################
 #Vectors, Matrices, Arrays, Lists, and Data Frames
-####################################
+########################################################################
 
 ####################################
 #Vectors
@@ -176,6 +176,109 @@ f
 #Matrices have two indexes
 #First index is rows
 #second index is columns
+#Arrays are more general can can have many dimensions
+#So matrices are really two dimensional arrays
+
+#By default matrices are populated by columns
+mat <- matrix(c(1:9), ncol = 3)
+mat
+
+#To input by row
+mat <- matrix(c(1:9), ncol = 3, byrow = TRUE)
+mat
+
+#Subsetting matrices
+#Need to specify a row and a column
+mat[1, 1]
+#First row
+mat[1, ]
+#First column
+mat[, 1]
+#First and third row with the second column removed
+mat[c(1, 3), -2]
+
+##################
+#cbind and rbind
+##################
+#cbind stacks matrices next to each other
+#rbind stacks matrices on top of one another
+mat1 <- matrix(1, ncol = 2, nrow = 2)
+mat2 <- matrix(2, ncol = 2, nrow = 2)
+mat3 <- matrix(3, ncol = 2, nrow = 2)
+#cbind
+cbind(mat1, mat2, mat3)
+#rbind
+rbind(mat1, mat2, mat3)
+
+#Combining
+wide <- cbind(mat1, mat2, mat3)
+tall <- rbind(mat1, mat2, mat3)
+rbind(wide, cbind(tall, tall, tall))
+
+#Quick note on arrays
+arr <- array(1:12, dim = c(2, 2, 3))
+arr
+dim(arr)
+#three indexes
+arr[1, , ]
+arr[1, , 1]
+
+########################################################################
+#Lists
+########################################################################
+#Lists are very flexible R objects
+#The items of a list can be of any class including many different classes within one R list
+#Lists are said to be recursive because an element of a list could potentially be a list itself
+#I Lists are indexed with double brackets "[[]]" or with a "$name"
+
+#Create a list
+l <-
+  list(3, rep(0, 3), matrix(c(1:4), ncol = 2), paste("X", c(1:5), sep = ""))
+l
+
+#Another wany to create this list
+#initialize an empty list
+l <- list()
+l[[1]] <- 3
+l[[2]] <- rep(0, 3)
+#named elements
+l$three <- matrix(c(1:4), ncol = 2)
+l$four <- paste("X", c(1:5), sep = "")
+l
+
+#Let's look at the names
+names(l)
+
+#assign names
+names(l)[1:2] <- c("one", "two")
+names(l)
+#Let's look at the structure
+str(l)
+#length of a list is the number of elements in the list
+length(l)
+
+#Call an element of a list in two ways:
+#By index
+l[[3]]
+
+#by name
+l$three
+
+####################
+#Lists of lists
+####################
+l2 <- list(list(3, rep(0,3)), list(5, rep(1,6)))
+l2
+#First element is a list
+l2[[1]]
+#list of lists can be called by indexing as much as needed
+l2[[1]][[1]]
+
+####################
+#Data frames!
+####################
+
+
 
 
 
