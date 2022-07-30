@@ -277,8 +277,68 @@ l2[[1]][[1]]
 ####################
 #Data frames!
 ####################
+#Dataframes are just lists where each element must be a vectors of the same length
+#Much of the data that we are interested in can easily be analyzed as a data frame
+#Data frames have properties of a matrix and a list
+#Can be subsetted by index OR name
 
+#create a data frame
+df <- data.frame(V1 = 1:10, 
+                 V2 = rep(1, 10),
+                 V3 = seq(1,20,2),
+                 V4=c(rep("A",3),rep("B",7)),
+                 V5=rnorm(10,0,5),
+                 V6=paste0("X",c(1,1,2,3,1,3,1,2,3,4)))
 
+df
 
+#These are equivalent
+names(df)
+colnames(df)
+#Row names default to consequtive integers
+rownames(df)
 
+#Pull out first column
+df[,1]
 
+#pull out first row
+df[1,]
+
+#Everything without the first three rows
+df[-c(1:3),]
+
+#Rows 3, 6, and 8 with columns 2 and 4
+df[c(3,6,8),c(2,4)]
+
+#Rows can be added to a data.frame by using rbind
+#Careful though!  This makes everything a character!
+test <- rbind(df, c(1,1,1,"A",1,"X2"))
+str(test)
+
+#The "right" way to do this!
+test <- rbind(df, data.frame(V1 = 11,
+                             V2 = 1,
+                             V3 = 1,
+                             V4 = "A",
+                             V5 = 1,
+                             V6 = "X2"))
+test
+
+#Columns can be added using cbind 
+cbind(df,100:109)
+
+#Or this:
+df$new_col <- 100:109
+
+#You can derive new columns in this way
+df$sumV1_V2 <- df$V1 + df$V2
+df
+
+#################################
+#Summary and table
+#################################
+#summary five a five number summary of a continuous variables and a frequency table of a character or a factor
+#table returns a frequency table
+
+summary(df)
+table(df$V6)
