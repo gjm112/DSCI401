@@ -1,0 +1,217 @@
+---
+title: "Data Visualization"
+author: "Gregory J. Matthews"
+date: "8/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mdsr)
+library(tidyverse)
+data("CIACountries")
+```
+
+# Scatterplots
+### Base R
+
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ)
+```
+
+Add axis labels
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education")
+```
+
+Change the shape
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16)
+```
+
+Change the color
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red")
+```
+
+Change the x and y limits 
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red", 
+     xlim = c(0,150000), 
+     ylim = c(0,15))
+```
+
+Change the x and y limits 
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red", 
+     xlim = c(0,150000), 
+     ylim = c(0,15))
+```
+
+Aspect Ratio
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red", 
+     xlim = c(0,150000), 
+     ylim = c(0,15), 
+     asp = 10000)
+```
+
+Change axis labels 
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red", 
+     xlim = c(0,150000), 
+     ylim = c(0,15), 
+     asp = 10000, 
+     xaxt = 'n', 
+     yaxt = 'n')
+
+axis(1, c(0,100000,200000), c("None","A little","A lot"))
+axis(2, c(0,5,10,15), c("None","Ok","Good","Great"))
+```
+
+Size  
+```{r}
+plot(CIACountries$gdp, 
+     CIACountries$educ, 
+     xlab = "GDP",
+     ylab = "Education",
+     pch = 16, 
+     col = "red", 
+     xlim = c(0,150000), 
+     ylim = c(0,15), 
+     asp = 10000, 
+     xaxt = 'n', 
+     yaxt = 'n', 
+     cex = 0.5)
+
+axis(1, c(0,100000,200000), c("None","A little","A lot"))
+axis(2, c(0,5,10,15), c("None","Ok","Good","Great"))
+```
+
+### ggplot
+```{r}
+library(ggplot2)
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point()
+```
+
+Add axis labels
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point() + 
+  xlab("GDP") + 
+  ylab("Education")
+```
+
+Change the shape
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23) +
+  xlab("GDP") +
+  ylab("Education")
+```
+
+Change the color
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23, colour = "red") +
+  xlab("GDP") +
+  ylab("Education") 
+```
+
+Change the x and y limits 
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23, colour = "red") +
+  xlab("GDP") +
+  ylab("Education") + 
+  xlim(0,200000) + 
+  ylim(0,15)
+```
+
+Aspect Ratio
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23, colour = "red") +
+  xlab("GDP") +
+  ylab("Education") + 
+  xlim(0,200000) + 
+  ylim(0,15) + 
+  coord_fixed(ratio=10000)
+```
+
+Change axis values
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23, colour = "red") +
+  xlab("GDP") +
+  ylab("Education") + 
+  xlim(0,200000) + 
+  ylim(0,15) + 
+  coord_fixed(ratio=10000) + 
+  scale_x_continuous(breaks = c(0,100000,200000),
+                     labels = c("None","A little","A lot"), 
+                     limits = c(0,200000)) + 
+  scale_y_continuous(breaks = c(0,5,10,15),
+                     labels = c("None","Ok","Good","Great"),
+                     limits = c(0,15)
+                     )
+#Note: scale_x_continuous overrules the xlim!
+```
+
+Size  
+```{r}
+ggplot(aes(x = gdp, y = educ), data = CIACountries) +
+  geom_point(shape = 23, colour = "red", size = 0.5) +
+  xlab("GDP") +
+  ylab("Education") + 
+  xlim(0,200000) + 
+  ylim(0,15) + 
+  coord_fixed(ratio=10000) + 
+  scale_x_continuous(breaks = c(0,100000,200000),
+                     labels = c("None","A little","A lot"), 
+                     limits = c(0,200000)) + 
+  scale_y_continuous(breaks = c(0,5,10,15),
+                     labels = c("None","Ok","Good","Great"),
+                     limits = c(0,15)
+                     )
+
+```
+
+
