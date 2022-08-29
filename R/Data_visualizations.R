@@ -1,8 +1,9 @@
 library(mdsr)
 library(tidyverse)
-CIACountries
+data("CIACountries")
 
 #Scatterplots
 #Base R
+plot(CIACountries$gdp, CIACountries$educ)
 
 

@@ -55,7 +55,9 @@ Topics
 
 1b\. [R Objects: Vectors, Matrices, Arrays, Lists, and Data Frames](https://github.com/gjm112/DSCI401/blob/main/R/vectors_lists_dataframes.R)
 
-2\. Data Visualization
+2a\. [Data Visualization in R](https://github.com/gjm112/DSCI401/blob/main/R/Data_visualizations.Rmd)
+
+2b\. [Data Visualization in Python]()
 
 3\. Data Summarization
 

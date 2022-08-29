@@ -1,0 +1,813 @@
+\documentclass{beamer}
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+  \title[] % (optional, use only with long paper titles)
+%{Modern Approaches to Missing Data: R Introduction}
+{Chapter R: A Brief Introduction to R}
+% \subtitle
+% {for Graduate Students} % (optional)
+
+
+%\author[Ofer Harel] % (optional, use only with lots of authors)
+%{Ofer Harel\inst{1} and  Gregory Matthews\inst{2}}
+
+\author{Gregory J. Matthews  $^{1}$ }
+
+
+%  \inst{1}
+%Department of Statistics\\
+%University of Connecticut
+
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+\institute [Loyola] % (optional, but mostly needed)
+{
+  $^{1}$Department of Mathematics and Statistics\\
+  Loyola University Chicago
+}
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+
+\date[Fall 2014] % (optional)
+{Fall 2014} %Date / Occasion}
+
+
+
+\begin{document}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+% You might wish to add the option
+% [pausesections]
+\end{frame}
+
+
+
+
+
+
+
+%Opening R - some basics (getwd setwd)
+%Data Management
+\section{What is R?}
+\begin{frame}
+What is R?
+\begin{itemize}
+\item R is a language and environment for statistical computing and graphics. 
+\item Website: www.r-project.org
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%
+\begin{frame}
+Pros
+\begin{itemize}
+\item R is free.
+\item There are many packages for R.  Chances are someone has written it already. 
+\item Many cutting edge techniques are available very quickly.  
+\end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%
+
+\begin{frame}
+Cons
+\begin{itemize}
+\item R is free.  This means there is no support for R.  
+\item This also means that you use a package at your own risk and you trust the author wrote the code correctly.  
+\item Takes a little while to learn.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%
+%\begin{frame}
+%\includegraphics[scale=.54]{twitterMap.pdf}
+%\end{frame}
+\section{R Studio}
+\begin{frame}
+\frametitle{R Studio}
+What is Rstudio$^{TM}$?
+\begin{itemize}
+\item RStudio? is a free and open source integrated development environment (IDE) for R.
+\item rstudio.org
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Rstudio}
+\begin{itemize}
+\item When you open up Rstudio the screen is divided into 4 parts
+\begin{itemize}
+\item Source (Upper Left)
+\item Console (Lower Left)
+\item Workspace/History (Upper Right)
+\item Files/Plots/Packages/{\bf Help}
+\end{itemize}
+\item 'Help' is your best friend. Every function in R has a help file.  
+\item You can either search for a function (lm) or type: help(lm).  Both take you to the same place.  (lower right of R studio)
+\item ls() lists all the current object (Upper right of R studio)
+\end{itemize}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Source}
+Upper Left box
+\begin{itemize}
+\item This is where we will type R code.  
+\item To run R code click the "Run" button or type "Command-Enter"
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Console}
+Lower Left box
+\begin{itemize}
+\item This displays the code that has run and the output.  
+\item We can either run code from the source box or by typing directly into the console
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Workspace/History}
+Upper Right box
+\begin{itemize}
+\item The workspace tab displays all of the R objects that have been created in this session and describes them 
+\item we can view the data in the source window by clicking to the right of the appropriate row in the workspace window
+\item we can also view the data in the console by typing the name of the object that we are interested in viewing and hitting enter.  
+\item the history tab displays all of the commands that have been run in the console
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Files/Plots/Packages/Help}
+Lower Right box
+\begin{itemize}
+\item Files: Allows you to look for files.  This is like Windows Explorer (or Finder, for Mac Users)
+\item Plots: Manages all of your plots that are created.
+\item Packages: Functions come in packages and you need to install and load the correct package to use a function.  This tab allows you to manage which packages are loaded.  
+\item {\bf Help}:  If you don't understand how to use a function, this allows you to get help (Can also get here by typing "help(lm)" which will give you the help file for the function "lm" used for linear modeling).
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%
+
+\section{R objects}
+\begin{frame}
+Some Notes
+\begin{itemize}
+\item R is case sensitive (R$\ne$r)
+\item To comment out a command we use ``\#"
+\item If you can't figure out what something is {\it str} is a useful function 
+\item Every function has a help page (?function or help(function))
+\item To install a package use install.package('package.name')
+\item To load a package use library(package.name)
+\item getwd() and setwd()
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%
+\subsection{Vectors}
+\begin{frame}[fragile]
+\begin{itemize}
+\item Vectors consist of a series of elements
+\item To assign elements to a vector use: \begin{verbatim}<- or -> or =\end{verbatim}
+%\item Vectors in R are assigned using the c() function 
+\item Vectors have one index, which can be used to call specific elements from the vectors
+%\item Matrices are objects 
+\end{itemize} 
+\end{frame}
+%%%%%%%%%%%%%
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+  #Vectors
+  #Assign like this
+  X.vec<-c(4,1,3,8,6,7,5,3,0,9)
+#Or like this
+c(4,1,3,8,6,7,5,3,0,9)->X.vec
+#What is X.vec?
+str(X.vec)
+
+#I can look at specific element of the vector
+#only the first element
+X.vec[1]
+
+#the first five elements
+X.vec[1:5]
+
+#everything except for the fourth element
+X.vec[-4]
+
+#elements one, five, and nine
+X.vec[c(1,5,9)]
+
+
+
+@
+
+\end{frame}
+%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+<<>>=
+  #Vectors can be added together 
+  #Vector Operations
+  X.vec
+
+Y.vec<-c(1:10)
+Y.vec
+
+#Add the two vectors together
+X.vec+Y.vec
+
+#Add 1 to every element
+X.vec+1
+
+
+@
+\end{frame}
+
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+  #Take the reciprocal of all elements
+  #Notice how R handles infinity
+  round(1/X.vec,4)[5:10]
+#Vectors will repeat themselves
+c(1:3)+c(1:6)
+#However, they must be multiples
+c(1:3)+c(1:5)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{itemize}
+\item ``=" assigns: x=3 means the values of "x" is 3
+\item "==" test: x==3 tests the elements of x to see if they meet this condition
+\item This will return TRUE or FALSE (or NA)
+\item Other logical symbols include:
+\begin{itemize}
+\item "<" less than 
+\item ">" greater than
+\item "<=" less than or equal
+\item ">=" greater than or equal
+\item "!=" not equal
+\end{itemize}
+\item These can be combined by using "\&" and "|" as "and" and "or", respectively.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+<<>>=
+X.vec<-c(4,1,3,8,6,7,5,3,0,9)
+X.vec==0
+(X.vec==0)+0
+sum(X.vec==0)
+X.vec>5 | X.vec==0
+
+#Pull out all of the elements that are greater than 5 or equal to 0.
+X.vec[X.vec>5 | X.vec==0]
+
+@
+\end{frame}
+
+\begin{frame}[fragile]
+How does R deal with missing values?
+\begin{itemize}
+\item R uses "NA" to indicate missing values.  
+\item R also uses "NaN" to indicate not a number.  
+\end{itemize} 
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+#Missing Values
+X.vec<-c(4,1,3,8,6)
+X.vec[1]<-NA
+X.vec
+
+##Which values in X.vec are missing?
+is.na(X.vec)
+
+##Not the same as this:
+X.vec==NA
+
+@
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+<<>>=
+##There is also NaN
+X.vec[2]<-0/0
+X.vec
+
+##NA and NaN are both treated as missing in is.na()
+is.na(X.vec)
+
+is.nan(X.vec)
+
+#Is infinity missing?
+is.na(Inf)
+
+is.nan(Inf)
+
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+##Useful vector functions
+##Creates a vector of numbers from 1 to 10 by 2. 
+seq(1,10,2)
+
+##Creates a vector of equally spaced numbers between 1 and 10 of length 5.
+seq(1,10,length=5)
+
+##Creates a vector of zeroes with 5 elements
+rep(0,5)
+
+##Using both rep() and seq()
+c(rep(seq(1,10,2),2))
+
+@
+\end{frame}
+
+
+
+\begin{frame}
+\begin{itemize}
+\item So far, everything has been numeric in the vectors we have seen.
+\item However, other types of data are also important.
+\begin{itemize}
+\item characters
+\item factors
+\end{itemize}
+\item Vectors can also consist of elements of both of these types
+\item Assign a character string to a vectors as before with the function c()
+\item Either single or double quotation marks are used to denote character strings
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+X<-c("A","A","B","C","A","B")
+#Still acts as a vector
+ X[1]
+ X[1:4]
+@
+\end{frame}
+
+
+\begin{frame}[fragile]
+<<>>=
+##character vectors
+ X.vec<-c(1,1,2,3,1,2)
+ 
+ ##numeric
+ str(X.vec)
+
+ ##character
+ str(X)
+@
+\end{frame}
+
+
+\begin{frame}[fragile]
+<<>>=
+X<-c("1","1","2","3","1","2")
+#X+1
+##I can do this
+ as.numeric(X)+1
+
+ ##Same as this
+ X.vec+1
+
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ #Factors
+ #Create a factor
+ X.factor<-factor(c("A","A","B","C","A","B"))
+ X.factor
+
+
+ #Display the factor levels
+ levels(X.factor)
+
+ #Coerced to numeric
+ as.numeric(X.factor)
+
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+#create a factor
+Y.factor<-factor(c(100,100,200,300,100,200))
+Y.factor
+#Levels are different
+levels(Y.factor)
+#Coerced to numeric 
+as.numeric(Y.factor)
+#CAREFUL! 
+#You probably wanted this:
+as.numeric(as.character(Y.factor))
+@
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item paste() is a useful function when dealing with characters
+\item Use this function to join multiple character strings. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ ##paste function
+ ##Character vector
+ X.vec<-c("X1","X2","X3","X4","X5")
+ X.vec
+
+ ##Same vector but simpler
+ X.vec<-paste("X",c(1:5),sep="")
+ X.vec
+
+ ##paste function recycles values
+ X.vec<-paste("X",c(1:5),c(1:10),sep="-")
+ X.vec
+@
+
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+\item How can we subset vectors?
+\item May want to remove certain elements from the vector.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+##Subsetting a vector
+ X<-c(1:10,NA,NA)
+ X
+
+ #Pull out first element
+ X[1]
+
+ #Use logical statements to subset the vectors
+ #Pull out elements that are <3 or >8
+ X[X<3 | X>8]
+
+ #pull out only the non-missing values
+ X[!is.na(X)]
+@
+\end{frame}
+
+\subsection{Matrices and Arrays}
+\begin{frame}
+\begin{itemize}
+\item Matrices have two indices
+\begin{itemize}
+\item First index is the row index
+\item Second index is the column index
+\end{itemize}
+\item Arrays are more general and can have many indices 
+\item So matrices are really two dimensional arrays
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+<<>>=
+ ##Matrices
+ ##By default matrices are populated by row
+ X.mat<-matrix(c(1:9),ncol=3)
+ X.mat
+
+
+
+ ##To input by row
+ X.mat<-matrix(c(1:9),ncol=3,byrow=TRUE)
+ X.mat
+
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ ##Pull out elements in same way as with vectors
+ #Now we need to specify a row and and column
+ X.mat[1,1]
+
+ ##All of the first row
+ X.mat[1,]
+
+ ##All of the first column
+ X.mat[,1]
+
+ ##First and third row with the second column removed
+ X.mat[c(1,3),-2]
+
+@
+\end{frame}
+
+
+\begin{frame}
+\frametitle{cbind() and rbind()}
+\begin{itemize}
+\item cbind allows us to join two matrices by placing them next to one another.
+\item rbind allows us to join two matrices together by placing one on top of the other.  
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+<<>>=
+mat1<-matrix(1,ncol=2,nrow=2)
+mat2<-matrix(2,ncol=2,nrow=2)
+mat3<-matrix(3,ncol=2,nrow=2)
+#cbind
+ cbind(mat1,mat2,mat3)
+
+ rbind(mat1,mat2,mat3)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ wide<-cbind(mat1,mat2,mat3)
+ tall<-rbind(mat1,mat2,mat3)
+ rbind(wide,cbind(tall,tall,tall))
+@
+
+\end{frame}
+
+
+\subsection{Lists}
+\begin{frame}
+\frametitle{Lists}
+\begin{itemize}
+\item Lists are very flexible R objects
+\item The items of a list can be of any class including many different classes within one R list
+\item Lists are said to be recursive because an element of a list could potentially be a list itself
+\item Lists are indexed with double brackets "[[]]" or with a "\$name"
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[fragile]
+<<>>=
+##Lists
+##Create a list
+X.list<-list(3,rep(0,3),matrix(c(1:4),ncol=2),paste("X",c(1:5),sep=""))
+X.list
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ ##Create a list
+ X.list<-list()
+ X.list[[1]]<-3
+ X.list[[2]]<-rep(0,3)
+ X.list$three<-matrix(c(1:4),ncol=2)
+ X.list$four<-paste("X",c(1:5),sep="")
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ X.list
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+ names(X.list)
+
+ ##I want to assign names to the first two elements
+ names(X.list)[1:2]<-c("one","two")
+ names(X.list)
+
+ str(X.list)
+
+ length(X.list)
+
+@
+\end{frame}
+
+
+
+
+
+
+\begin{frame}[fragile]
+<<>>=
+##Call the third element is two ways:
+##By index
+X.list[[3]]
+##By name
+X.list$three
+@
+\end{frame}
+\begin{frame}[fragile]
+<<>>=
+#Lists of lists
+X.list<-list(list(3,rep(0,3)),list(matrix(c(1:4),ncol=2),paste("X",c(1:5),sep="")))
+X.list[[1]]
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+X.list[[2]]
+@
+\end{frame}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%
+
+\subsection{Data frames}
+\begin{frame}
+\frametitle{R: data frames}
+\begin{itemize}
+\item Data frames are just lists where each element must be a vector of the same length.
+\item Much of the data that we are interested in can easily be analyzes as a data frame.
+\item Data frames have many of the properties of matrices.
+\begin{itemize}
+\item Subset like a matrix
+\begin{itemize}
+\item X[,1] - Display first column
+\item X[1,] - Display first row
+\end{itemize}
+\item Or by variable name
+\begin{itemize}
+\item X\$V1 - Display variable ``V1"
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+#data frames
+#Create a simple data frame
+X.df <- data.frame(V1=c(1:10),V2=rep(1,10),V3=seq(1,20,2),V4=c(rep("A",3),rep("B",7)),V5=rnorm(10,0,5),V6=paste("X",c(1,1,2,3,1,3,1,2,3,3),sep=""))
+#str(X.df)
+names(X.df)
+colnames(X.df)
+@
+\end{frame}
+
+\begin{frame}[fragile]
+<<>>=
+##Dataframes have many of the properties of a matrix.
+#Only First column
+X.df[,1]
+
+#Only first row
+X.df[1,]
+
+@
+\end{frame}
+
+
+\begin{frame}[fragile]
+<<>>=
+#everything but the first three rows
+X.df[-c(1:3),]
+#Rows 3,6, and 8, columns 2, 4
+X.df[c(3,6,8),c(2,4)]
+@
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{R: data frame}
+\begin{itemize}
+\item Observations (rows) can be added to a data frame by using rbind()
+\item Variables (columns) can be added to a data frame by using cbind()
+\item Columns can also be added as follows: x\$three<-x\$y+x\$z
+\item This creates a new variable three which is the sum of variables y and z which are contained in the data frame x
+\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+#Add one column
+ cbind(X.df,NEW=-c(1:10))
+@
+\end{frame}
+%%%%%%%%%%%%%
+
+
+
+\begin{frame}[fragile]
+<<>>=
+##Add two colums
+mat=matrix(NA,ncol=2,nrow=10)
+colnames(mat)<-c("V7","V8")
+ cbind(X.df,mat)
+@
+\end{frame}
+
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+##Add a variable 
+X.df$new.var<-2*X.df$V1+1
+X.df
+@
+\end{frame}
+
+
+%%%%%%%%%%%%%
+
+
+\begin{frame}
+\frametitle{}
+\begin{itemize}
+\item summary() gives a five number of continuous variables and a frequency table for character of factor type variables. 
+\item table() returns a frequency table of the observations
+\end{itemize}
+\end{frame}
+\end{document}
+%%%%%%%%%%%%%
+\begin{frame}[fragile]
+<<>>=
+#Five number summary of V5
+ summary(X.df$V5)
+
+ #Frequency table of V4
+ table(X.df$V4)
+ #two by two table of V4 by V5
+ table(X.df$V4,X.df$V6)
+   
+
+@
+\end{frame}
+%%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+<<>>=
+ #all variables at once
+summary(X.df)
+@
+\end{frame}
+
+
+
+
+
+		
+\end{document}
