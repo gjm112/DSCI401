@@ -125,6 +125,8 @@ axis(2, c(0,5,10,15), c("None","Ok","Good","Great"))
 ```
 
 ### ggplot
+The key to using ggplot to is to think of ever command as a layer!
+
 ```{r}
 library(ggplot2)
 ggplot(aes(x = gdp, y = educ), data = CIACountries) +
@@ -214,4 +216,212 @@ ggplot(aes(x = gdp, y = educ), data = CIACountries) +
 
 ```
 
+# Univariate displays
 
+### Histograms
+
+```{r}
+library(mdsr)
+data("SAT_2010")
+
+```
+```{r}
+#Base R
+hist(SAT_2010$math)
+#ggplot
+ggplot(aes(x = math), data = SAT_2010) + geom_histogram()
+```
+
+
+```{r}
+#Base R
+dens <- density(SAT_2010$math)
+plot(dens$x, dens$y, type = "l")
+#ggplot
+#This is a lot cleaner code and nicer looking!
+ggplot(aes(x = math), data = SAT_2010) + geom_density()
+```
+
+```{r}
+sub <- head(SAT_2010, 10)
+sub <- sub[order(sub$math),]
+barplot(sub$math, names.arg = sub$state)
+
+#ggplot
+ggplot(
+  data = head(SAT_2010, 10), 
+  aes(x = reorder(state, math), y = math)
+) +
+  geom_col() +
+  labs(x = "State", y = "Average math SAT score")
+```
+### Stacked bar chart
+```{r}
+library(mosaicData)
+ggplot(data = mosaicData::HELPrct, aes(x = homeless)) + 
+  geom_bar(aes(fill = substance), position = "fill") 
+
+ggplot(data = mosaicData::HELPrct, aes(x = homeless)) + 
+  geom_bar(aes(fill = substance), position = "fill") +
+  scale_fill_brewer(palette = "Spectral") 
+
+
+ggplot(data = mosaicData::HELPrct, aes(x = homeless)) + 
+  geom_bar(aes(fill = substance), position = "fill") +
+  scale_fill_brewer(palette = "Spectral") + 
+  coord_flip()
+
+```
+
+
+### Multivariate displays
+```{r}
+
+g <- ggplot(
+  data = SAT_2010, 
+  aes(x = expenditure, y = math)
+) + 
+  geom_point()
+
+```
+ We can easily add a trend line with ggplot.  
+```{r}
+g <- g + 
+  geom_smooth(method = "loess", se = FALSE) + 
+  xlab("Average expenditure per student ($1000)") +
+  ylab("Average score on math SAT")
+```
+
+To do this in base R you have to do this: 
+```{r}
+plot(SAT_2010$expenditure, SAT_2010$math)
+a <- loess(SAT_2010$math ~ SAT_2010$expenditure)
+points(a$x[order(a$x)], a$fitted[order(a$x)], type = "l", col = "red")
+```
+
+```{r}
+SAT_2010 <- SAT_2010 %>%
+  mutate(
+    SAT_rate = cut(
+      sat_pct, 
+      breaks = c(0, 30, 60, 100), 
+      labels = c("low", "medium", "high")
+    )
+  )
+g <- g %+% SAT_2010
+g + aes(color = SAT_rate)
+#To this in base R is possible, but it is a pain!
+```
+
+### Faceting
+
+```{r}
+#Base R
+par(mfrow = c(1, 3))
+
+plot(SAT_2010$expenditure[SAT_2010$SAT_rate == "low"],
+     SAT_2010$math[SAT_2010$SAT_rate == "low"],
+     xlab = "expenditure",
+     ylab = "math score")
+
+plot(SAT_2010$expenditure[SAT_2010$SAT_rate == "medium"],
+     SAT_2010$math[SAT_2010$SAT_rate == "medium"],
+     xlab = "expenditure",
+     ylab = "math score")
+
+plot(SAT_2010$expenditure[SAT_2010$SAT_rate == "high"],
+     SAT_2010$math[SAT_2010$SAT_rate == "high"],
+     xlab = "expenditure",
+     ylab = "math score")
+```
+
+So much easier in ggplot!
+
+```{r}
+g + facet_wrap(~ SAT_rate)
+```
+
+```{r}
+#full code
+SAT_2010 <- SAT_2010 %>%
+  mutate(SAT_rate = cut(
+    sat_pct,
+    breaks = c(0, 30, 60, 100),
+    labels = c("low", "medium", "high")
+  ))
+g <- ggplot(data = SAT_2010,
+            aes(x = expenditure, y = math)) +
+  geom_point() + geom_smooth(method = "lm") + facet_wrap( ~ SAT_rate)
+g
+
+```
+
+NHANES example
+```{r}
+library(NHANES)
+ggplot(
+  data = slice_sample(NHANES, n = 1000), 
+  aes(x = Age, y = Height, color = Gender)
+) + 
+  geom_point() + 
+  geom_smooth() + 
+  xlab("Age (years)") + 
+  ylab("Height (cm)") +
+  labs(color = "Gender")
+```
+
+```{r}
+#relevel the reference category
+library(NHANES)
+ggplot(
+  data = slice_sample(NHANES, n = 1000), 
+  aes(x = Age, y = Height, color = fct_relevel(Gender, "male"))
+) + 
+  geom_point() + 
+  geom_smooth() + 
+  xlab("Age (years)") + 
+  ylab("Height (cm)") +
+  labs(color = "Gender")
+```
+
+```{r}
+library(macleish)
+ggplot(data = whately_2015, aes(x = when, y = temperature)) + 
+  geom_line(color = "darkgray") + 
+  geom_smooth() + 
+  xlab(NULL) + 
+  ylab("Temperature (degrees Celsius)")
+```
+```{r}
+# whately_2015 %>%
+#   mutate(month = as.factor(lubridate::month(when, label = TRUE))) %>%
+#   group_by(month) %>% 
+#   skim(temperature) %>%
+#   select(-na)
+
+whately_2015$month <-
+  as.factor(lubridate::month(whately_2015$when, label = TRUE))
+
+
+#Base R
+boxplot(
+  whately_2015$temperature ~ whately_2015$month,
+  xlab = "Month",
+  ylab = expression("Temperature (" *  ~ degree * C * ")")
+)
+
+#ggplot
+ggplot(
+  data = whately_2015, 
+  aes(
+    x = lubridate::month(when, label = TRUE), 
+    y = temperature
+  )
+) + 
+  geom_boxplot() +
+  xlab("Month") + 
+  ylab(expression("Temperature ("*~degree*C*")"))
+```
+
+
+Check out the extended example here: https://mdsr-book.github.io/mdsr2e/ch-vizII.html#sec:babynames
