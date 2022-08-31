@@ -1,0 +1,34 @@
+---
+title: "Data Wrangling on one table"
+author: "Gregory J. Matthews"
+date: "8/31/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tidyverse grammer
+- select(): Returns a sub set of columns
+- filter(): Returns a subset of rows
+- mutate()
+- arrange()
+- summarize()
+
+```{r}
+library(tidyverse)
+library(mdsr)
+#Subset of rows
+filter(CIACountries, pop > 1000000000)
+
+#I can also do it like this
+CIACountries %>% filter(pop > 1e9)
+
+#In base R
+CIACountries[CIACountries$pop > 1e9,]
+
+#or
+subset(CIACountries, pop > 1e9)
+
+```

@@ -301,7 +301,7 @@ class(a)
 a <- 3e3
 class(a)
 
-#Opertations
+#Operations
 a <- 1/2 
 b <- 10
 #Square root

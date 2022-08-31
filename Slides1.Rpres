@@ -55,35 +55,32 @@ Topics
 
 1b\. [R Objects: Vectors, Matrices, Arrays, Lists, and Data Frames](https://github.com/gjm112/DSCI401/blob/main/R/vectors_lists_dataframes.R)
 
-2\. Data Summarization
+2\. Data Wrangling - Single Table
 
 3a\. [Data Visualization in R](https://github.com/gjm112/DSCI401/blob/main/R/Data_visualizations.Rmd)
 
-3b\. [Data Visualization in Python](https://colab.research.google.com/drive/1ytPHlIZu3ngolAANwRof11tDxRGeXw46)
+3b\. [Data Visualization in Python](https://colab.research.google.com/drive/1-LbqqSotHupNGd507kn9bP4Ywv4M3hXM)
 
 
+4\. Data Wrangling - Multiple Tables
 
-4\. Data Wrangling - Single Table
+5\. Working with tidy data
 
-5\. Data Wrangling - Multiple Tables
-
-6\. Working with tidy data
-
-7\. Data Ethics
+6\. Data Ethics
 
 Topics
 ============
 
-8\. Statistical concepts
+7\. Statistical concepts
  - Sampling Distributions
  - Bootstrapping
  - Statistical Modeling
  
-9\. Intro to Predictive Modeling 
+8\. Intro to Predictive Modeling 
 
-10\. Supervised and Unsupervised Learning
+9\. Supervised and Unsupervised Learning
 
-11\. Simulation 
+10\. Simulation 
 
 
 Topics

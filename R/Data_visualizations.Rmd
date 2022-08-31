@@ -223,7 +223,6 @@ ggplot(aes(x = gdp, y = educ), data = CIACountries) +
 ```{r}
 library(mdsr)
 data("SAT_2010")
-
 ```
 ```{r}
 #Base R
