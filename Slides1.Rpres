@@ -55,11 +55,13 @@ Topics
 
 1b\. [R Objects: Vectors, Matrices, Arrays, Lists, and Data Frames](https://github.com/gjm112/DSCI401/blob/main/R/vectors_lists_dataframes.R)
 
-2a\. [Data Visualization in R](https://github.com/gjm112/DSCI401/blob/main/R/Data_visualizations.Rmd)
+2\. Data Summarization
 
-2b\. [Data Visualization in Python]()
+3a\. [Data Visualization in R](https://github.com/gjm112/DSCI401/blob/main/R/Data_visualizations.Rmd)
 
-3\. Data Summarization
+3b\. [Data Visualization in Python](https://colab.research.google.com/drive/1ytPHlIZu3ngolAANwRof11tDxRGeXw46)
+
+
 
 4\. Data Wrangling - Single Table
 
