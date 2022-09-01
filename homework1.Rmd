@@ -1,0 +1,27 @@
+---
+title: "Homework 1"
+author: "Gregory J. Matthews"
+date: "9/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Homework 1
+
+"Name five words" - Ricardo German
+
+```{r}
+x <- rnorm(10)
+hist(x)
+```
+
+
+
+
+
+
+
+
