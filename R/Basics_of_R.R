@@ -4,6 +4,7 @@
 
 #Big note!
 # R starts indexing at 1 NOT ZERO!!!!!
+# Case MaTtErs!
 
 ####################################
 #Assignment
@@ -28,8 +29,8 @@ height
 #Variables
 ####################################
 #Default to numeric
-height <- 442 
-class(height)
+height <- 442
+class(as.integer(height))
 
 height <- 442.0
 class(height)
@@ -42,6 +43,7 @@ class(height)
 height <- as.integer(442)
 class(height)
 object.size(height)
+
 
 ####################################
 #R is case sensitive
