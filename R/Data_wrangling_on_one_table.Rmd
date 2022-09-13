@@ -126,3 +126,10 @@ tapply(my_CIACountries$area,my_CIACountries$high_educ, mean)
 
 
 
+
+  
+
+
+
+
+
