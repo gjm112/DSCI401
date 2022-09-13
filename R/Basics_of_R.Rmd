@@ -95,8 +95,9 @@ cat("last value of x = ",x)
 #For
 ####################################
 #Consecutive indexes
-for (i in 1:10){
+for (i in 1:10) {
   print(i)
+  i <- i + 1
 }
 
 for (i in 10:1){
@@ -314,7 +315,7 @@ tan(a)
 log(a)
 #log base b
 log(a, b)
-#exponetiate
+#exponentiate
 exp(a)
 
 #Functions

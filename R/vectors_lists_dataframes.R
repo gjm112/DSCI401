@@ -99,6 +99,7 @@ rep(0, 5)
 
 #these can be combined
 c(rep(seq(1, 10, 2), 2))
+c(rep(seq(1, 10, 2), each = 2))
 
 #Tidyverse way......more on this coming soon!
 library(tidyverse)
@@ -342,3 +343,19 @@ df
 
 summary(df)
 table(df$V6)
+
+
+cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cubs_all_time.csv")
+
+sum(cubs$Attendance > 3000000)
+temp <- cubs$Attendance[!is.na(cubs$Attendance)]
+sum(temp > 3000000)
+
+library(tidyverse)
+cubs %>% filter(Attendance > 3000000) %>% nrow()
+
+
+
+
+
+

@@ -9,13 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Tidyverse grammer
-- select(): Returns a sub set of columns
-- filter(): Returns a subset of rows
-- mutate()
-- arrange()
-- summarize()
+# Tidyverse grammar
+- select(): Returns a sub set of columns (i.e. features or variables)
+- filter(): Returns a subset of rows (i.e. observations)
+- mutate(): add or modify existing columns
+- arrange(): sort the rows
+- summarize(): aggregate the data across rows (e.g., group it according to some criteria)
 
+#Filter and Select
 ```{r}
 library(tidyverse)
 library(mdsr)
@@ -32,3 +33,96 @@ CIACountries[CIACountries$pop > 1e9,]
 subset(CIACountries, pop > 1e9)
 
 ```
+
+
+```{r}
+#Subset of columns
+select(CIACountries, country, pop, gdp)
+
+#I can also do it like this
+CIACountries %>% select(country, pop, gdp)
+
+#In base R
+CIACountries[, c("country", "pop", "gdp")]
+
+#or
+subset(CIACountries, select = c("country", "pop", "gdp"))
+
+```
+
+
+```{r}
+#filter and select
+filter(select(CIACountries, country, pop, gdp), pop > 1e9)
+
+#Or we can do this with a pipeline
+CIACountries %>% select(country, pop, gdp) %>% filter(pop > 1e9)
+
+#Or in base R
+CIACountries[CIACountries$pop > 1e9,c("country", "pop", "gdp")]
+
+#or this:
+subset(CIACountries, pop > 1e9, select = c("country", "pop", "gdp"))
+```
+#Mutate and Rename
+```{r}
+#Mutate
+#Population Density
+my_CIACountries <- mutate(CIACountries, dens = pop/area)
+my_CIACountries[1,]
+
+my_CIACountries <- CIACountries %>% mutate(dens = pop/area)
+my_CIACountries[1,]
+
+#Base R
+library(mdsr)
+my_CIACountries$dens <- CIACountries$pop / CIACountries$area
+
+#rename
+my_CIACountries <- CIACountries %>% rename(education = educ)
+my_CIACountries[1,]
+```
+
+#arrange
+
+```{r}
+#Sorting with arrange
+#Defaults to ascending
+CIACountries_sort <- arrange(CIACountries, gdp)
+CIACountries_sort[1:5,]
+
+#Sort descending
+CIACountries_sort <- arrange(CIACountries, desc(gdp))
+CIACountries_sort[1:5,]
+
+CIACountries_sort <- CIACountries %>% arrange(desc(gdp))
+CIACountries_sort[1:5,]
+
+#Base R with order
+CIACountries_sort <- CIACountries[order(CIACountries$gdp),]
+CIACountries_sort[1:5,]
+
+CIACountries_sort <- CIACountries[order(-CIACountries$gdp),]
+CIACountries_sort[1:5,]
+```
+
+#Summarize and Group_by
+```{r}
+#What is the average area by high vs low education countries?
+my_CIACountries <-
+  CIACountries %>% mutate(high_educ = educ > 4.5) %>% group_by(high_educ) %>% summarize(mn_area = mean(area))
+my_CIACountries
+
+#Base R
+my_CIACountries <- CIACountries
+my_CIACountries$high_educ <- CIACountries$educ > 4.5
+tapply(my_CIACountries$area,my_CIACountries$high_educ, mean)
+
+```
+
+##In class assignment: What first letter has the largest population? 
+
+#What proportion of countries produce any oil stratified by net users class? 
+
+
+
