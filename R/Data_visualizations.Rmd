@@ -307,9 +307,14 @@ SAT_2010 <- SAT_2010 %>%
       labels = c("low", "medium", "high")
     )
   )
-g <- g %+% SAT_2010
-g + aes(color = SAT_rate)
+#g <- g %+% SAT_2010
+#g + aes(color = SAT_rate)
 #To this in base R is possible, but it is a pain!
+
+
+#Full code: 
+g <- ggplot(data = SAT_2010, aes(x = expenditure, y = math)) + 
+  geom_point(aes(color = SAT_rate)) + geom_smooth(aes(color = SAT_rate), method = "lm", se = FALSE)
 ```
 
 ### Faceting
