@@ -129,8 +129,9 @@ The key to using ggplot to is to think of ever command as a layer!
 
 ```{r}
 library(ggplot2)
-ggplot(aes(x = gdp, y = educ), data = CIACountries) +
-  geom_point()
+ggplot(aes(x = gdp, y = educ),data = CIACountries) + geom_point()
+
+#CIACountries %>% ggplot(aes(x = gdp, y = educ)) + geom_point()
 ```
 
 Add axis labels
@@ -229,6 +230,8 @@ data("SAT_2010")
 hist(SAT_2010$math)
 #ggplot
 ggplot(aes(x = math), data = SAT_2010) + geom_histogram()
+#gggplot with breaks
+ggplot(aes(x = math), data = SAT_2010) + geom_histogram(breaks = c(400,450,550,600,700))
 ```
 
 
@@ -239,6 +242,9 @@ plot(dens$x, dens$y, type = "l")
 #ggplot
 #This is a lot cleaner code and nicer looking!
 ggplot(aes(x = math), data = SAT_2010) + geom_density()
+
+#More jagged
+ggplot(aes(x = math), data = SAT_2010) + geom_density(bw = 0.01)
 ```
 
 ```{r}
@@ -285,7 +291,7 @@ g <- ggplot(
 ```
  We can easily add a trend line with ggplot.  
 ```{r}
-g <- g + 
+g + 
   geom_smooth(method = "loess", se = FALSE) + 
   xlab("Average expenditure per student ($1000)") +
   ylab("Average score on math SAT")
@@ -313,8 +319,8 @@ SAT_2010 <- SAT_2010 %>%
 
 
 #Full code: 
-g <- ggplot(data = SAT_2010, aes(x = expenditure, y = math)) + 
-  geom_point(aes(color = SAT_rate)) + geom_smooth(aes(color = SAT_rate), method = "lm", se = FALSE)
+ggplot(data = SAT_2010, aes(x = expenditure, y = math)) + 
+  geom_point(aes(color = SAT_rate)) + geom_smooth(aes(color = SAT_rate), method = "lm", se = FALSE) + scale_colour_brewer(palette = "Spectral") 
 ```
 
 ### Faceting
@@ -342,7 +348,8 @@ plot(SAT_2010$expenditure[SAT_2010$SAT_rate == "high"],
 So much easier in ggplot!
 
 ```{r}
-g + facet_wrap(~ SAT_rate)
+#g + facet_wrap( ~SAT_rate )
+#g + facet_grid(~ SAT_rate )
 ```
 
 ```{r}
@@ -427,5 +434,41 @@ ggplot(
   ylab(expression("Temperature ("*~degree*C*")"))
 ```
 
-
 Check out the extended example here: https://mdsr-book.github.io/mdsr2e/ch-vizII.html#sec:babynames
+
+
+# In class exercise
+Make these plots!
+
+```{r echo = FALSE}
+SAT_2010 <- SAT_2010 %>% 
+  mutate(ptr = ifelse(pupil_teacher_ratio >= 15, "ptr - high","ptr - low"), 
+         sal = ifelse(salary >= 52000, "sal - high","sal - low"))
+
+library(ggplot2)
+ggplot(aes(x = math, y = read, col = SAT_rate), data = SAT_2010) + geom_point() + facet_grid(sal~ptr) 
+```
+
+```{r echo = FALSE}
+library(ggplot2)
+a <- SAT_2010[,c("state","salary","read")]
+b <- SAT_2010[,c("state","salary","math")]
+c <- SAT_2010[,c("state","salary","write")]
+
+names(a) <- names(b) <- names(c) <- c("state","salary","score")
+
+
+a$subject <- "read"
+b$subject <- "math"
+c$subject <- "write"
+
+
+dat <- data.frame(rbind(a,b,c))
+
+
+ggplot(aes(x = salary, y = score, col = subject), data = dat) + geom_point() + geom_smooth(se = FALSE)
+
+```
+
+
+ 
