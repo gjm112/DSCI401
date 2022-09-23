@@ -1,0 +1,55 @@
+---
+title: "Data Wrangling on Two Tables"
+author: "Gregory J. Matthews"
+date: "9/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inner Join
+Inner joins return results if the keys are matched in BOTH tables.
+
+```{r}
+library(tidyverse)
+library(mdsr)
+library(nycflights13)
+
+head(airlines)
+head(flights)
+
+```
+
+```{r}
+#Old school
+flights_joined <- merge(flights, airlines, by.x = "carrier", by.y = "carrier")
+glimpse(flights_joined)
+```
+
+```{r}
+flights_joined %>% 
+  select(carrier, name, flight, origin, dest) %>% 
+  head(3)
+```
+
+```{r}
+flights_joined <- flights %>% 
+  inner_join(airlines, by = c("carrier" = "carrier"))
+glimpse(flights_joined)
+```
+
+```{r}
+flights_joined %>% 
+  select(carrier, name, flight, origin, dest) %>% 
+  head(3)
+```
+
+```{r}
+nrow(flights)
+nrow(flights_joined)
+```
+
+
+
