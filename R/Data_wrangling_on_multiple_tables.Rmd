@@ -57,5 +57,67 @@ nrow(flights_joined)
 
 ***It is always a good idea to carefully check that the number of rows returned by a join operation is what you expected. In particular, you should carefully check for rows in one table that matched to more than one row in the other table***
 
+## Left Join
+
+"Here the rows of the first table are always returned, regardless of whether there is a match in the second table."
+
+```{r}
+#Airports in the pacific time zone only 
+airports_pt <- airports %>%
+  filter(tz == -8) %>% select(faa, name, tz)
+nrow(airports_pt)
+head(airports_pt)
+```
+
+```{r}
+#If we do inner join
+nyc_dests_pt <- flights %>% 
+  inner_join(airports_pt, by = c("dest" = "faa")) %>% select(name, tz, dest, dep_time,sched_dep_time, arr_time, sched_arr_time, carrier)
+head(nyc_dests_pt)
+```
+
+```{r}
+#Notice these are different.  
+#key variable needs to be in BOTH data sets to get returned.  
+nrow(flights)
+nrow(nyc_dests_pt)
+```
+
+
+```{r}
+nyc_dests <- flights %>% 
+  left_join(airports_pt, by = c("dest" = "faa"))
+```
+
+```{r}
+#Notice these are the same!
+nrow(flights)
+nrow(nyc_dests)
+nyc_dests %>%
+  summarize(
+    num_flights = n(),
+    num_flights_pt = sum(!is.na(name)),
+    num_flights_not_pt = sum(is.na(name))
+  )
+```
+
+
+```{r}
+library(Lahman)
+#Let's look at Manny Ramirez
+manny <- Batting %>%
+  filter(playerID == "ramirma02")
+nrow(manny)
+
+People %>% 
+  filter(nameLast == "Ramirez" & nameFirst == "Manny")
+
+#Question 1: How many years did Manny Ramirez hit more than 30 HRs?
+#Question 2: In terms of number of HRs hit, what AGES were his five best? 
+#Question 3: What fraction of total homeruns in the league did Manny hit in each of his seasons?   
+```
+
+
+
 
 
