@@ -1,0 +1,61 @@
+---
+title: "Data Wrangling on Multiple Tables"
+author: "Gregory J. Matthews"
+date: "9/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inner Join
+Inner joins return results if the keys are matched in BOTH tables.
+
+```{r}
+library(tidyverse)
+library(mdsr)
+library(nycflights13)
+
+head(airlines)
+head(flights)
+
+```
+
+```{r}
+#Old school
+flights_joined <- merge(flights, airlines, by.x = "carrier", by.y = "carrier")
+glimpse(flights_joined)
+```
+
+```{r}
+flights_joined %>% 
+  select(carrier, name, flight, origin, dest) %>% 
+  head(3)
+```
+
+```{r}
+#Tidyverse way
+flights_joined <- flights %>% 
+  inner_join(airlines, by = c("carrier" = "carrier"))
+glimpse(flights_joined)
+```
+
+```{r}
+flights_joined %>% 
+  select(carrier, name, flight, origin, dest) %>% 
+  head(3)
+```
+
+```{r}
+#Same number of rows.  Why?  
+nrow(flights)
+nrow(flights_joined)
+```
+
+"In an inner_join(), the result set contains only those rows that have matches in both tables. In this case, all of the rows in flights have exactly one corresponding entry in airlines, so the number of rows in flights_joined is the same as the number of rows in flights (this will not always be the case)."
+
+***It is always a good idea to carefully check that the number of rows returned by a join operation is what you expected. In particular, you should carefully check for rows in one table that matched to more than one row in the other table***
+
+
+
