@@ -115,6 +115,27 @@ People %>%
 #Question 1: How many years did Manny Ramirez hit more than 30 HRs?
 #Question 2: In terms of number of HRs hit, what AGES were his five best? 
 #Question 3: What fraction of total homeruns in the league did Manny hit in each of his seasons?   
+
+```
+
+```{r}
+manny_people <- People %>% 
+  filter(nameLast == "Ramirez" & nameFirst == "Manny")
+
+
+manny %>% group_by(yearID) %>% summarise(HRt = sum(HR)) %>% filter(HRt > 30)
+
+#Ages
+manny %>% left_join(manny_people, by = c("playerID" = "playerID")) %>% mutate(age = yearID - birthYear) %>% group_by(age) %>% summarise(HRt = sum(HR)) %>% arrange(desc(HRt))
+
+#
+lg <- Batting %>% 
+  group_by(yearID) %>% summarise(HRt_league = sum(HR))
+
+manny_tot <- manny %>% group_by(yearID) %>% summarise(HRt_manny = sum(HR)) 
+manny_tot %>% left_join(lg, by = c("yearID" = "yearID")) %>% mutate(fraction = HRt_manny/HRt_league) %>% arrange(desc(fraction))
+
+
 ```
 
 
