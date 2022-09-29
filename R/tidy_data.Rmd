@@ -48,3 +48,19 @@ BP_narrow %>%
 BP_wide %>% 
   pivot_longer(-subject, names_to = "when", values_to = "sbp")
 ```
+
+
+## Example 
+In class exercises: 
+ - Find the most gender neurtral name
+ - What name saw the biggest drop from 1900 to 1950?  How about from 1950 to 2000?  
+```{r}
+
+library(babynames)
+babynames
+
+```
+
+
+
+
