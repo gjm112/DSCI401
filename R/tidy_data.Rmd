@@ -52,13 +52,13 @@ BP_wide %>%
 
 ## Example 
 In class exercises: 
- - Find the most gender neurtral name
+ - Find the most gender neutral name
  - What name saw the biggest drop from 1900 to 1950?  How about from 1950 to 2000?  
 ```{r}
 
 library(babynames)
 babynames
-
+#write.csv(babynames, file = "./data/babynames.csv", row.names = FALSE)
 ```
 
 
