@@ -18,6 +18,7 @@ Data are called ``tidy" if they are organized according to two simple rules:
 ## Reshaping Data
 ```{r}
 library(mdsr)
+library(tidyverse)
 BP_wide <- data.frame(subject = c("BHO","GWB","WJC"),
                       before = c(160,120, 105),
                       after = c(115, 135, 145))
