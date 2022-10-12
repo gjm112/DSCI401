@@ -1,0 +1,37 @@
+---
+title: "Iteration"
+author: "Gregory J. Matthews"
+date: "10/12/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Vectoring Operations
+```{r}
+#Let's say I want the averages of a bunch of columns. 
+# I COULD use a for loop.
+library(Lahman)
+averages <- NULL
+for (i in 15:40) {
+  averages[i - 14] <- mean(Teams[, i], na.rm = TRUE)
+}
+names(averages) <- names(Teams)[15:40]
+averages
+
+```
+"It is important to understand that the fundamental architecture of R is based on vectors. That is, in contrast to general-purpose programming languages like C++ or Python that distinguish between single items—like strings and integers—and arrays of those items, in R a “string” is just a character vector of length 1. There is no special kind of atomic object. Thus, if you assign a single “string” to an object, R still stores it as a vector." - Baumer Book
+```{r}
+a <- "a string"
+class(a)
+
+is.vector(a)
+
+length(a)
+
+```
+
+Advice: "Try to avoid writing for() loops, even when it seems like the easiest solution."
