@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Vectoring Operations
+## Vectorized Operations
 ```{r}
 #Let's say I want the averages of a bunch of columns. 
 # I COULD use a for loop.
@@ -122,6 +122,41 @@ angels %>% pull(name) %>% map_chr(nchar)
 angels %>% pull(name) %>% map(nchar)
 ```
 "It’s often helpful to use map() to figure out what the return type will be, and then switch to the appropriate type-specific map() variant." - Baumer Book
+
+# iterating over our own function
+
+```{r}
+top5 <- function(data, team_name) {
+  data %>%
+    filter(name == team_name) %>%
+    select(teamID, yearID, W, L, name) %>%
+    arrange(desc(W)) %>%
+    head(n = 5)
+}
+```
+
+```{r}
+angels_names <- angels %>%
+  pull(name)
+angels_names
+```
+
+```{r}
+angels_names %>%
+  map(top5, data = Teams)
+```
+
+
+```{r}
+#Average number of wins for top 5 seasons
+angels_names %>% 
+  map_dfr(top5, data = Teams) %>%
+  group_by(teamID, name) %>%
+  summarize(N = n(), mean_wins = mean(W)) %>%
+  arrange(desc(mean_wins))
+```
+
+#Iteration of sub groups: Coming soon
 
 ## In class question: 
  - Using the baby names data set, find the top 100 female baby names in 1950.  Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
