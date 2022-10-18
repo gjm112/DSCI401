@@ -125,13 +125,16 @@ angels %>% pull(name) %>% map(nchar)
 # iterating over our own function
 
 ```{r}
-top5 <- function(data, team_name) {
+top5 <- function(team_name, data) {
   data %>%
     filter(name == team_name) %>%
     select(teamID, yearID, W, L, name) %>%
     arrange(desc(W)) %>%
     head(n = 5)
 }
+
+top5(data = Teams, team_name = "New York Yankees")
+top5("New York Yankees",Teams )
 ```
 
 ```{r}
@@ -142,7 +145,7 @@ angels_names
 
 ```{r}
 angels_names %>%
-  map(top5, data = Teams)
+  map(top5,Teams)
 ```
 
 
