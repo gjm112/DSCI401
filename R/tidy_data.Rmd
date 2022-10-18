@@ -48,6 +48,9 @@ BP_narrow %>%
 ```{r}
 BP_wide %>% 
   pivot_longer(-subject, names_to = "when", values_to = "sbp")
+
+BP_wide %>% 
+  pivot_longer(c(before, after), names_to = "when", values_to = "sbp")
 ```
 
 
@@ -60,6 +63,14 @@ In class exercises:
 library(babynames)
 babynames
 #write.csv(babynames, file = "./data/babynames.csv", row.names = FALSE)
+```
+
+
+```{r}
+library(tidyverse)
+test <- babynames %>% group_by(name,sex) %>% summarise(total = sum(n)) %>% pivot_wider(names_from = sex, values_from = total) %>% mutate(ratio = M/(M+F)) %>% mutate(balanced = abs(ratio - .5)) %>% filter(M > 1000 & F > 1000) %>% arrange(balanced) 
+
+
 ```
 
 

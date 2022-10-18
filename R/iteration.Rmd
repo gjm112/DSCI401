@@ -57,12 +57,11 @@ f <- Vectorize(f)
 f(1:3)
 ```
 
+
 ```{r}
 #old school apply family.  
 Teams_sub <- Teams[,unlist(lapply(Teams, is.numeric))]
-apply(Teams_sub,2,mean, na.rm = TRUE)
-
-
+round(apply(Teams_sub,2,mean, na.rm = TRUE),2)
 ```
 
 ```{r}
@@ -74,7 +73,7 @@ Teams %>%
 ```{r}
 Teams %>% 
   select(15:40) %>%
-  map_dbl(mean, na.rm = TRUE)
+  map_dbl(mean, na.rm = TRUE) 
 #Notice that na.rm is an option in the mean function!
 #Note: map_dbl() forces the output to be a vector of type double.
 ```
@@ -156,7 +155,44 @@ angels_names %>%
   arrange(desc(mean_wins))
 ```
 
-#Iteration of sub groups: Coming soon
+#Iteration of sub groups
+
+```{r}
+hr_leader <- function(x) {
+# x is a subset of Teams for a single year and league
+  x %>% 
+    select(teamID, HR) %>% 
+    arrange(desc(HR)) %>% 
+    head(1)
+}
+
+Teams %>% 
+  filter(yearID == 1961 & lgID == "AL") %>% 
+  hr_leader()
+
+
+#.keep indicates that you want to keep the grouping variables in the output.  
+hr_leaders <- Teams %>% 
+  group_by(yearID, lgID) %>% 
+  group_modify(~hr_leader(.x), .keep = TRUE)
+
+tail(hr_leaders, 4)
+
+hr_leaders %>%
+  group_by(lgID) %>%
+  summarize(mean_hr = mean(HR))
+
+```
+
+#Simulation: Coming Soon
 
 ## In class question: 
  - Using the baby names data set, find the top 100 female baby names in 1950.  Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
