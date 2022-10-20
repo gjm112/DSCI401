@@ -193,6 +193,12 @@ hr_leaders %>%
  - Using the baby names data set, find the top 100 female baby names in 1950.  Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
  
  
+ - What was the "most average" name in 1970? That is, compute the total number of births in 1970 and divide by the number of unique names.  Find the name that is closest to this mean.  Now repeat this for every year.  
+ 
+ 
+ library(mosaic)
+ 
+ 
  
  
  
