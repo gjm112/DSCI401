@@ -187,7 +187,31 @@ hr_leaders %>%
 
 ```
 
-#Simulation: Coming Soon
+#Simulation
+
+#Bootstrapping
+```{r}
+n <- 1000
+boots <- 1:n %>% map_dbl( ~ Teams %>% filter(yearID == 2000) %>% pull(HR) %>% sample(replace = TRUE) %>% mean())
+#Standard error estimate
+sd(boots)
+quantile(boots, c(0.025, 0.5, 0.975))
+hist(boots)
+```
+
+
+#In class
+ - Randomly sample from a square with side length = 2.  Check to see if the random draw is inside the unit circle.  Use this to simulate pi.  
+ - The number of hurricanes in a given year in Florida is approximately Poisson with lambda = 3.2 (I made this up).  There is a 20% chance that every hurricane will be ``severe".  If a hurricane is severe, the monetary amount of damage done will follow an exponential distribution with mean \$400 million.  Assume that if a hurricane is not severe, then the amount of damage is \$0.  What is the average monetary amount of damage per year?  What is the probability that the amount of damage is over \$1 billion in a given year?
+ 
+ 
+
+
+
+
+
+
+
 
 ## In class question: 
  - Using the baby names data set, find the top 100 female baby names in 1950.  Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
@@ -196,7 +220,16 @@ hr_leaders %>%
  - What was the "most average" name in 1970? That is, compute the total number of births in 1970 and divide by the number of unique names.  Find the name that is closest to this mean.  Now repeat this for every year.  
  
  
- library(mosaic)
+```{r}
+library(babynames)
+top100 <- babynames %>% filter(year == 1950 & sex == "F") %>% arrange(desc(n)) %>% head(100)
+top100$name
+
+test <- babynames %>% filter(name %in% top100$name & year >= 1900 & sex == "F") %>% group_by(name) %>% group_modify(~ data.frame(maxdiff = min(c(diff(.x$n))/.x$n[-length(.x$n)]))) %>% arrange(maxdiff)
+
+
+
+```
  
  
  
