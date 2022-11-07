@@ -191,8 +191,8 @@ hr_leaders %>%
 
 #Bootstrapping
 ```{r}
-n <- 1000
-boots <- 1:n %>% map_dbl( ~ Teams %>% filter(yearID == 2000) %>% pull(HR) %>% sample(replace = TRUE) %>% mean())
+nsim <- 1000
+boots <- 1:nsim %>% map_dbl( ~ Teams %>% filter(yearID == 2000) %>% pull(HR) %>% sample(replace = TRUE) %>% mean())
 #Standard error estimate
 sd(boots)
 quantile(boots, c(0.025, 0.5, 0.975))
@@ -204,6 +204,24 @@ hist(boots)
  - Randomly sample from a square with side length = 2.  Check to see if the random draw is inside the unit circle.  Use this to simulate pi.  
  - The number of hurricanes in a given year in Florida is approximately Poisson with lambda = 3.2 (I made this up).  There is a 20% chance that every hurricane will be ``severe".  If a hurricane is severe, the monetary amount of damage done will follow an exponential distribution with mean \$400 million.  Assume that if a hurricane is not severe, then the amount of damage is \$0.  What is the average monetary amount of damage per year?  What is the probability that the amount of damage is over \$1 billion in a given year?
  
+ 
+ 
+```{r} 
+#Function for checking whether the point is inside a circle
+inside_circle <- function(){
+  x <- runif(1,-1,1)
+  y <- runif(1,-1,1)
+  return(x^2 + y^2 <= 1)
+}
+
+#Now use map to simulate this many times
+nsim <- 1000000
+mn <- 1:nsim %>% map_dbl( ~ inside_circle()) %>% mean()
+
+#Now compute pi
+4*mn 
+
+```
  
 
 

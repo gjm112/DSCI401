@@ -1,0 +1,59 @@
+---
+title: "Data Ethics"
+author: "Gregory J. Matthews"
+date: "10/27/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ethics
+3 parts of the Hippocratic Oath: 
+
+- "I will not be ashamed to say ‘I know not,’ nor will I fail to call in my colleagues when the skills of another are needed for a patient’s recovery."
+
+- "I will respect the privacy of my patients, for their problems are not disclosed to me that the world may know."
+
+- I will remember that I remain a member of society, with special obligations to all my fellow human beings, those sound of mind and body as well as the infirm."
+
+# Turthful Falsehoods
+
+![](/Users/gregorymatthews/Dropbox/DSCI401/R/syg.png)
+
+![](/Users/gregorymatthews/Dropbox/DSCI401/R/nr.png)
+
+![](/Users/gregorymatthews/Dropbox/DSCI401/R/covidGA.png)
+
+
+# Discussion
+# "Gaydar"
+Y. Wang and Kosinski (2018) used a deep neural network (see Section 11.1.5) and logistic regression to build a classifier (see Chapter 10) for sexual orientation based on pictures of people’s faces. The authors claim that if given five images of a person’s face, their model would correctly predict the sexual orientation of 91\% of men and 83\% of women. The authors highlight the potential harm that their work could do in their abstract:
+
+"Additionally, given that companies and governments are increasingly using computer vision algorithms to detect people’s intimate traits, our findings expose a threat to the privacy and safety of gay men and women."
+
+A subsequent article in The New Yorker also notes that:
+
+"the study consisted entirely of white faces, but only because the dating site had served up too few faces of color to provide for meaningful analysis."
+
+Was this research ethical? Were the authors justified in creating and publishing this model?
+
+# Race Prediction
+Imai and Khanna (2016) built a racial prediction algorithm using a Bayes classifer (see Section 11.1.4) trained on voter registration records from Florida and the U.S. Census Bureau’s name list. In addition to the publishing the paper detailing the methodology, the authors published the software for the classifer on GitHub under an open-source license. The wru package is available on CRAN and will return predicted probabilities for a person’s race based on either their last name alone, or their last name and their address.
+
+Given the long history of systemic racism in the United States, it is clear how this software could be used to discriminate against people of color. One of us once partnered with a progressive voting rights organization that wanted to use racial prediction to target members of an ethnic group to *help* them register to vote.
+
+Was the publication of this model ethical? Does the open-source nature of the code affect your answer? Is it ethical to use this software? Does your answer change depending on the intended use?
+
+#8.4.6 Reproducible spreadsheet analysis
+In 2010, Harvard University economists Carmen Reinhart and Kenneth Rogoff published a report entitled “Growth in a Time of Debt” (Rogoff and Reinhart 2010), which argued that countries which pursued austerity measures did not necessarily suffer from slow economic growth. These ideas influenced the thinking of policymakers—notably United States Congressman Paul Ryan—during the time of the European debt crisis.
+
+University of Massachusetts graduate student Thomas Herndon requested access to the data and analysis contained in the paper. After receiving the original spreadsheet from Reinhart, Herndon found several errors.
+
+"I clicked on cell L51, and saw that they had only averaged rows 30 through 44, instead of rows 30 through 49." —Thomas Herndon (Roose 2013)
+
+In a critique of the paper, Herndon, Ash, and Pollin (2014) point out coding errors, selective inclusion of data, and odd weighting of summary statistics that shaped the conclusions of the Reinhart/Rogoff paper.
+
+What ethical questions does publishing a flawed analysis raise?
+

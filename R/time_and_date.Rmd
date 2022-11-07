@@ -1,0 +1,121 @@
+---
+title: "Dates"
+author: "Gregory J. Matthews"
+date: "11/7/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Dates
+```{r}
+#Bulit in R functions
+Sys.Date()
+Sys.time()
+date()
+```  
+#Adding and subtracting dates
+```{r}
+dates <- c("1982-07-25","2022-11-07")
+class(dates)
+#Converts character to a date
+dates <- as.Date(dates)
+class(dates)
+#My age in days
+dates[2] - dates[1]
+#My age in years (Not quite exact, right?  But really close)
+(dates[2] - dates[1])/365
+```
+
+#Formatting dates
+```{r}
+#%d - dat as a number 
+#%a - abbreviated month
+#%A - unabbreviated month
+#%m - month numeric
+#%b - abbreviated month
+#%B - unabbreviated month
+#%y - 2 digit year
+#%Y - 4 digit year
+```
+
+
+```{r}
+#Some examples
+format(dates[1], format = "%B %d %y")
+format(dates[1], format = "%b %d %Y")
+format(dates[1], format = "%m-%d-%y")
+
+
+dates <- c("1982-07-25","2022-11-07")
+#Converts character to a date
+#default format is yyyy-mm-dd
+as.Date(dates)
+
+dates <- c("7/25/82","7/25/82")
+#This doesn't work!
+as.Date(dates)
+#Must specify the format
+as.Date(dates, "%m/%d/%y")
+#Once you do that, you can change the format
+format(as.Date(dates, "%m/%d/%y"), format = "%B-%d-%Y")
+
+```
+#Dates as integers
+```{r}
+as.Date(32768, origin = "1900-01-01")
+#Different origins
+as.Date(32768, origin = "1970-01-01")
+```
+
+```{r}
+library(lubridate)
+#Note libridate is part of the tidyverse
+#functions such as ymd, ymd_hms, dmy_hms, mdy, etc.
+ymd(20101215)
+class(ymd(20101215))
+
+mdy("4/1/17")
+
+#Pull out different components of the data
+bday <- dmy("25/07/1982")
+month(bday)
+wday(bday, label = TRUE)
+
+
+year(bday) <- 2016
+bday
+wday(bday, label = TRUE)
+```
+#Date and time
+```{r}
+time <- ymd_hms("2010-12-13 15:30:30")
+time
+hour(time)
+minute(time)
+second(time)
+
+# Changes printing
+with_tz(time, "America/Chicago")
+
+# Changes time
+force_tz(time, "America/Chicago")
+
+```
+```{r}
+library(nycflights13)
+
+ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
+
+```
+
+# In class questions
+ - What day of the week do the most inspections occur. 
+ - What is the pass rate (i.e. results == "Pass") of each month for all inspections and which month had the lowest pass rate.  
+
+ 
+ 
+ 
