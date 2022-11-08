@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Dates
 ```{r}
+#https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
+
 #Bulit in R functions
 Sys.Date()
 Sys.time()
