@@ -9,3 +9,158 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(plotly) 
+library(tidyverse)
+
+fig <- plot_ly() %>% 
+  add_lines(x = c("a","b","c"), y = c(1,3,2))%>% 
+  layout(title="sample figure", xaxis = list(title = 'x'), yaxis = list(title = 'y'), plot_bgcolor = "#c7daec") 
+
+str(fig$x) 
+```
+
+```{r}
+fig
+```
+
+#Build a plot as a list
+```{r}
+library(plotly)
+fig = list(
+  data = list(
+    list(
+      x = c(1, 2, 3),
+      y = c(1, 3, 2),
+      type = 'bar'
+    )
+  ),
+  layout = list(
+    title = 'A Figure Specified By R List',
+    plot_bgcolor='#e5ecf6', 
+         xaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff'), 
+         yaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff')
+  )
+)
+# To display the figure defined by this list, use the plotly_build function
+plotly_build(fig)
+```
+
+#Build a plot with plot_ly rather than a list.
+```{r}
+library(plotly) 
+
+fig <- plot_ly(x = c(1, 2, 3), y = c(1, 3, 2), type = 'bar')%>% 
+  layout(title = 'A Plotly Figure',
+         plot_bgcolor='#e5ecf6', 
+         xaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff'), 
+         yaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff')) 
+fig
+```
+
+```{r}
+library(plotly)
+data(iris)
+
+fig <- plot_ly(data = iris, x = ~Sepal.Width, y = ~Sepal.Length, color = ~Species, 
+               type = "scatter", mode = "markers")%>%
+  layout(title="A Plotly Figure", legend=list(title=list(text='species')),
+         plot_bgcolor='#e5ecf6', 
+         xaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff'), 
+         yaxis = list( 
+           zerolinecolor = '#ffff', 
+           zerolinewidth = 2, 
+           gridcolor = 'ffff'))
+fig
+```
+
+#Scatterplots
+```{r}
+library(plotly)
+
+fig <- plot_ly(data = iris, x = ~Sepal.Length, y = ~Petal.Length)
+
+fig
+```
+#Plotting markers and lines
+```{r}
+library(plotly)
+
+trace_0 <- rnorm(100, mean = 5)
+trace_1 <- rnorm(100, mean = 0)
+trace_2 <- rnorm(100, mean = -5)
+x <- c(1:100)
+
+data <- data.frame(x, trace_0, trace_1, trace_2)
+
+fig <- plot_ly(data, x = ~x)
+fig <- fig %>% add_trace(y = ~trace_0, name = 'trace 0',mode = 'lines')
+fig <- fig %>% add_trace(y = ~trace_1, name = 'trace 1', mode = 'lines+markers')
+fig <- fig %>% add_trace(y = ~trace_2, name = 'trace 2', mode = 'markers')
+
+fig
+```
+
+#Plotly works with ggplot!
+
+```{r}
+
+library(tidyverse)
+library(mdsr)
+library(babynames)
+Beatles <- babynames %>%
+  filter(name %in% c("John", "Paul", "George", "Ringo") & sex == "M") %>%
+  mutate(name = factor(name, levels = c("John", "George", "Paul", "Ringo")))
+beatles_plot <- ggplot(data = Beatles, aes(x = year, y = n)) +
+  geom_line(aes(color = name), size = 2)
+beatles_plot
+
+```
+
+```{r}
+library(plotly)
+ggplotly(beatles_plot)
+```
+
+#We can also do interactive tables!
+#With datatable!
+```{r}
+library(DT)
+datatable(Beatles, options = list(pageLength = 10))
+```
+
+#Dygraphs
+```{r}
+library(dygraphs)
+Beatles %>% 
+  filter(sex == "M") %>% 
+  select(year, name, prop) %>%
+  pivot_wider(names_from = name, values_from = prop) %>%
+  dygraph(main = "Popularity of Beatles names over time") %>% 
+  dyRangeSelector(dateWindow = c("1940", "1980"))
+```
+
+#In class exercises
+```{r}
+ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
+
+#Make an interactive plot that shows pass rate by month with inspection type represented by color.  
+#Repeat this for a dygraph
+#Class: Come up with an interesting plot we can make and we'll all make it together.  Ask class for an idea.  
+```
+
