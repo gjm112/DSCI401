@@ -18,6 +18,9 @@ fig <- plot_ly() %>%
   layout(title="sample figure", xaxis = list(title = 'x'), yaxis = list(title = 'y'), plot_bgcolor = "#c7daec") 
 
 str(fig$x) 
+fig
+#If you wanrted to edit from a list!
+fig$x$attrs[[2]]$y <- c(3,2,1)
 ```
 
 ```{r}
@@ -93,7 +96,7 @@ fig
 ```{r}
 library(plotly)
 
-fig <- plot_ly(data = iris, x = ~Sepal.Length, y = ~Petal.Length)
+fig <- plot_ly(data = iris, x = ~Sepal.Length, y = ~Petal.Length, type = "scatter", mode = "markers")
 
 fig
 ```
@@ -106,9 +109,9 @@ trace_1 <- rnorm(100, mean = 0)
 trace_2 <- rnorm(100, mean = -5)
 x <- c(1:100)
 
-data <- data.frame(x, trace_0, trace_1, trace_2)
+data <- data.frame(greg = x, trace_0, trace_1, trace_2)
 
-fig <- plot_ly(data, x = ~x)
+fig <- plot_ly(data, x = ~greg)
 fig <- fig %>% add_trace(y = ~trace_0, name = 'trace 0',mode = 'lines')
 fig <- fig %>% add_trace(y = ~trace_1, name = 'trace 1', mode = 'lines+markers')
 fig <- fig %>% add_trace(y = ~trace_2, name = 'trace 2', mode = 'markers')
@@ -119,7 +122,6 @@ fig
 #Plotly works with ggplot!
 
 ```{r}
-
 library(tidyverse)
 library(mdsr)
 library(babynames)
@@ -129,7 +131,6 @@ Beatles <- babynames %>%
 beatles_plot <- ggplot(data = Beatles, aes(x = year, y = n)) +
   geom_line(aes(color = name), size = 2)
 beatles_plot
-
 ```
 
 ```{r}
@@ -162,5 +163,23 @@ ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
 #Make an interactive plot that shows pass rate by month with inspection type represented by color.  
 #Repeat this for a dygraph
 #Class: Come up with an interesting plot we can make and we'll all make it together.  Ask class for an idea.  
+```
+
+
+```{r}
+ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
+library(lubridate)
+ins$inspection_date <- as.Date(ins$inspection_date)
+ins <- ins %>% mutate(month = month(inspection_date), year = year(inspection_date))
+ins$year_month <- as.Date(paste(ins$year, ins$month,"01",sep = "-"))
+
+summ <- ins %>%  group_by(year_month, inspection_type) %>% summarize(pass_rate = mean(results %in% c("Pass","Pass w/ Conditions")))
+
+g <- ggplot(aes(x = year_month, y = pass_rate, colour = inspection_type), data = summ) + geom_line()
+g
+
+ggplotly(g)
+
+
 ```
 
