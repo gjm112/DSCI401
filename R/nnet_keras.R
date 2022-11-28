@@ -1,3 +1,6 @@
+#This worked:
+#SYSTEM_VERSION_COMPAT=0 pip install tensorflow-macos tensorflow-metal
+
 # install the development version of packages, in case the
 # issue is already fixed but not on CRAN yet.
 install.packages("remotes")
@@ -5,6 +8,7 @@ remotes::install_github(sprintf("rstudio/%s", c("reticulate", "tensorflow", "ker
 reticulate::miniconda_uninstall() # start with a blank slate
 reticulate::install_miniconda()
 keras::install_keras()
+
 
 #library(tensorflow)
 #install_tensorflow()

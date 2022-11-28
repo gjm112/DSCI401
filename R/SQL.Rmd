@@ -1,0 +1,122 @@
+---
+title: "SQL"
+author: "Gregory J. Matthews"
+date: "11/28/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# SQL
+Cheat sheet: https://www.codecademy.com/learn/learn-sql/modules/learn-sql-queries/cheatsheet
+
+ - SELECT
+ - FROM
+ - WHERE
+ - ORDER BY
+ - LIKE
+ - DISTINCT
+ - BETWEEN
+ - LIMIT
+ - AND and OR
+ - AS
+ - wildcards: % and _
+ 
+## Multiple tables
+ - LEFT JOIN 
+ - CROSS JOIN
+ - INNER JOIN
+
+ 
+```{r}
+library(tidyverse)
+library(RMySQL)
+db <- dbConnect(
+  MySQL(),
+  host = "scidb.smith.edu",
+  user = "sds192",
+  password = "DSismfc@S",
+  dbname = "imdb"
+)
+
+knitr::opts_chunk$set(connection = db, max.print = 20)
+```
+
+```{r}
+class(db)
+```
+
+```{r}
+dbListTables(db)
+```
+
+```{r}
+q <- "SELECT *
+FROM title
+WHERE title LIKE '%The Empire Strikes Back%'
+AND kind_id = 1;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+
+```
+
+
+```{r}
+q <- "SELECT t.title, t.production_year
+FROM title t 
+WHERE t.title LIKE 'Gregory%'
+  AND t.kind_id = 1
+ORDER BY production_year;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+```{r}
+q <- "SELECT * FROM name 
+WHERE name LIKE '%Davis, Viola%';"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+
+
+```{r}
+q <- "SELECT n.name, ci.role_id FROM cast_info ci JOIN name n ON n.id = ci.person_id WHERE ci.person_id = 2977372;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+
+```{r}
+q <- "SELECT n.name, ci.role_id FROM cast_info ci JOIN name n ON n.id = ci.person_id WHERE movie_id = 4260164;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+
+```{r}
+q <- "SELECT n.name, ci.role_id, cn.name FROM cast_info ci JOIN name n ON n.id = ci.person_id JOIN char_name cn ON cn.id = ci.person_role_id WHERE ci.person_id = 2977372;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+
+```{r}
+q <- "SELECT t.title, t.production_year, cn.name
+FROM cast_info ci
+JOIN title t ON ci.movie_id = t.id
+JOIN char_name cn ON cn.id = ci.person_role_id
+WHERE ci.person_id = 2977372
+  AND t.kind_id = 1
+  AND ci.role_id = 2
+ORDER BY production_year;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
+```
+
+
