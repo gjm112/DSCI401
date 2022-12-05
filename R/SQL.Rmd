@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # SQL
+#https://www.cl.cam.ac.uk/teaching/1617/DatabasesA/relational-db-schema.html
 Cheat sheet: https://www.codecademy.com/learn/learn-sql/modules/learn-sql-queries/cheatsheet
 
  - SELECT
@@ -24,6 +25,9 @@ Cheat sheet: https://www.codecademy.com/learn/learn-sql/modules/learn-sql-querie
  - AND and OR
  - AS
  - wildcards: % and _
+ 
+ - GROUPBY
+ - AGGREGATE
  
 ## Multiple tables
  - LEFT JOIN 
@@ -47,10 +51,14 @@ knitr::opts_chunk$set(connection = db, max.print = 20)
 
 ```{r}
 class(db)
+
 ```
 
 ```{r}
 dbListTables(db)
+
+dbListFields(db,"cast_info")
+test <- dbReadTable(db,"cast_info")
 ```
 
 ```{r}
@@ -61,14 +69,21 @@ AND kind_id = 1;"
 
 result = dbSendQuery(db, q) # write query to acces the records from a particular table.
 fetch(result)
+```
 
+```{r}
+q <- "SELECT *
+FROM kind_type;"
+
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+fetch(result)
 ```
 
 
 ```{r}
 q <- "SELECT t.title, t.production_year
 FROM title t 
-WHERE t.title LIKE 'Gregory%'
+WHERE t.title LIKE '%Gregory'
   AND t.kind_id = 1
 ORDER BY production_year;"
 
@@ -86,8 +101,8 @@ fetch(result)
 
 ```{r}
 q <- "SELECT n.name, ci.role_id FROM cast_info ci JOIN name n ON n.id = ci.person_id WHERE ci.person_id = 2977372;"
-
-result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+q2 <- "SELECT n.name, ci.role_id FROM cast_info as ci, name as n WHERE n.id = ci.person_id AND ci.person_id =2977372;"
+result = dbSendQuery(db, q2) # write query to acces the records from a particular table.
 fetch(result)
 ```
 
@@ -99,10 +114,22 @@ fetch(result)
 ```
 
 ```{r}
-q <- "SELECT n.name, ci.role_id, cn.name FROM cast_info ci JOIN name n ON n.id = ci.person_id JOIN char_name cn ON cn.id = ci.person_role_id WHERE ci.person_id = 2977372;"
+n.name, ci.role_id, cn.name
+q <- "SELECT * FROM cast_info ci JOIN name n ON n.id = ci.person_id JOIN char_name cn ON cn.id = ci.person_role_id WHERE ci.person_id = 2977372;"
 
 result = dbSendQuery(db, q) # write query to acces the records from a particular table.
-fetch(result)
+akhil <- fetch(result)
+
+q <- "SELECT * FROM cast_info ci, name n,char_name cn WHERE n.id = ci.person_id  and cn.id = ci.person_role_id and ci.person_id = 2977372;"
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+akhil_yesway <- fetch(result)
+
+
+q <- "SELECT * FROM name n"
+result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+akhil_yesway <- fetch(result)
+
+
 ```
 
 ```{r}
@@ -115,12 +142,70 @@ WHERE ci.person_id = 2977372
   AND ci.role_id = 2
 ORDER BY production_year;"
 
-result = dbSendQuery(db, q) # write query to acces the records from a particular table.
+result = dbSendQuery(db, q) # write query to access the records from a particular table.
 fetch(result)
 ```
 
 
 #To do in class
  - This might be ambitous......but let's try to find the most common character names by decade.  
+ - Actor who has played themselves the most. 
 
+
+```{r}
+library(tidyverse)
+library(RMySQL)
+db <- dbConnect(
+  MySQL(),
+  host = "scidb.smith.edu",
+  user = "sds192",
+  password = "DSismfc@S",
+  dbname = "imdb"
+)
+
+
+db <- dbConnect(
+  MySQL(),
+  host = "scidb.smith.edu",
+  user = "sds192",
+  password = "DSismfc@S",
+  dbname = "imdb"
+)
+
+
+
+title <- tbl(db, "title") %>% collect()
+save(title, file = "/Users/gregorymatthews/title.RData")
+ci <- tbl(db, "cast_info") %>% collect()
+save(ci, file = "/Users/gregorymatthews/ci.RData")
+n <- tbl(db, "name") %>% collect()
+save(n, file = "/Users/gregorymatthews/name.RData")
+cn <- tbl(db, "char_name") %>% collect()
+
+tbl(db, "title") %>% show_query()
+
+
+q <- "SELECT t.title, t.production_year, cn.name
+FROM cast_info ci
+JOIN title t ON ci.movie_id = t.id
+JOIN char_name cn ON cn.id = ci.person_id
+  AND t.kind_id = 1 ;"
+
+result = dbSendQuery(db, q) # write query to access the records from a particular table.
+test <- fetch(result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 
