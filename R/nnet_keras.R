@@ -45,8 +45,8 @@ check <- nnet(Salary ~ ., data = Gitters[-testid, ], size = 25)
 predict(check, newdata = Gitters[testid,])
 
 ###
-library(keras)
-install_keras()
+#library(keras)
+#install_keras()
 modnn <- keras_model_sequential() %>%
   layer_dense(units = 50, activation = "relu",
               input_shape = ncol(x)) %>%
