@@ -1,3 +1,6 @@
+#Shiny Cheat Sheet: https://shiny.rstudio.com/images/shiny-cheatsheet.pdf
+
+
 #
 # This is the user-interface definition of a Shiny web application. You can
 # run the application by clicking 'Run App' above.
@@ -19,6 +22,14 @@ shinyUI(
     numericInput(
       "endyear", "Enter ending year",
       value = 1970, min = 1881, max = 2014, step = 1
+    ),
+    sliderInput(
+      "ylow", "Enter Lower Limit of Y",
+      value = 0, min = 0, max = 1
+    ),
+    numericInput(
+      "yhigh", "Enter Upper Limit of Y",
+      value = 1, min = 0, max = 1, step = 0.005
     ),
     checkboxGroupInput(
       'names', 'Names to display:',

@@ -1,3 +1,4 @@
+#Shiny Cheat Sheet: https://shiny.rstudio.com/images/shiny-cheatsheet.pdf
 #
 # This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
@@ -23,7 +24,9 @@ shinyServer(
           name %in% input$names
         )
       ggplot(data = ds, aes(x = year, y = prop, color = name)) +
-        geom_line(size = 2)
+        geom_line(size = 2) + ylim(input$ylow, input$yhigh)
     })
+    
+    
   }
 )
