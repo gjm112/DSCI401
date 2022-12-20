@@ -18,12 +18,12 @@ shinyUI(fluidPage(
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            numericInput("yearstart",
+            numericInput("start",
                         "Start Year",
                         min = 1880,
                         max = 2014,
                         value = 1900),
-            numericInput("yearend",
+            numericInput("end",
                          "End Year",
                          min = 1880,
                          max = 2014,

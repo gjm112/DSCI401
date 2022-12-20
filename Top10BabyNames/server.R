@@ -19,7 +19,7 @@ shinyServer(function(input, output) {
     output$babytable <- renderTable({
 
         babynames %>% 
-        filter(year >= input$yearstart, year <= input$yearend, sex == input$sex) %>%
+        filter(year >= input$start, year <= input$end, sex == input$sex) %>%
         group_by(name) %>% 
         summarize(total = sum(n)) %>% 
         arrange(desc(total))
