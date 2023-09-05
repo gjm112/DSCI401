@@ -42,7 +42,7 @@ height
 #Variables
 ####################################
 #Default to numeric
-height <- 442 
+height <- as.integer(442)
 class(height)
 
 height <- 442.0
@@ -76,9 +76,9 @@ NAME <- "mary"
 #Indentations don't matter!
 #But they sure do look nicer!
 x <- 1
-while (x <= 100){
+while (x <= 100) {
   x <- x + 1
-  print(x)
+  #print(x)
 }
 cat("Last x is", x)
 print(paste0("Last x is ",x))
@@ -110,6 +110,11 @@ for (i in c(2, 3, 5, 7, 11)){
 }
 
 
+for (i in c("A","B","C")){
+  print(i)
+}
+
+
 
 ####################################
 #Conditional Statements
@@ -126,7 +131,6 @@ if (sky == "sunny"){
 }
 
 #Ifelse
-
 sky <- "cellphone"
 if (sky == "sunny"){
   print("Leave your umbrella at home!")
@@ -339,10 +343,30 @@ Imagine your starter code is: x=3 # I want to build a tower that is ~ 3 m high
 
 1. Write a statement to calculate how many bricks are needed.
 2. Write code using a while loop to calculate the number of bricks needed.
+3. Challenge: Can you add an argument to the function that will allow you to return a any unit you want.  
+
+```{r}
+#Target height
+#In meters
+x <- 3
+#Convert to mm
+xmm <- 1000*x
+#Find out how many bricks I need. 
+floor(xmm / 9.6)
+#Check
+312*9.6
+```
 
 
-
-
+```{r}
+n <- 0
+x <- 3
+while (9.6*n <= 1000*x){
+  n <- n + 1
+}
+#Answer is n-1
+n-1
+```
 
 
 
