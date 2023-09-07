@@ -359,13 +359,18 @@ cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cub
 # sum(temp > 3000000)
 
 #Questions
-1. What is the average per game attendance over the entire history of the cubs ?
+1. What is the average per game attendance over the entire history of the cubs?
 2. Define run differential as Runs (R) minus runs allowed (RA).
   2a. What was the largest run differntial and what year did it occur ?
   2b.What was worst run differential and which year did it occur ?
 3.  Can we do the same thing but with run differential PER GAME ? 
 
+    
+#Solutions: 
+#1. 
   
+  
+cubs %>% filter(Year >= 2013)
 
   
     
