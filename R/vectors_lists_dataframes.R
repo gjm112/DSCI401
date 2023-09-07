@@ -250,15 +250,15 @@ l <- list()
 l[[1]] <- 3
 l[[2]] <- rep(0, 3)
 #named elements
-l$three <- matrix(c(1:4), ncol = 2)
-l$four <- paste("X", c(1:5), sep = "")
+l$onion <- matrix(c(1:4), ncol = 2)
+l$cabbage <- paste("X", c(1:5), sep = "")
 l
 
 #Let's look at the names
 names(l)
 
 #assign names
-names(l)[1:2] <- c("one", "two")
+names(l)[1:2] <- c("kale", "potato")
 names(l)
 #Let's look at the structure
 str(l)
@@ -270,7 +270,9 @@ length(l)
 l[[3]]
 
 #by name
-l$three
+l$onion
+
+l[["onion"]]
 
 ####################
 #Lists of lists
@@ -283,7 +285,7 @@ l2[[1]]
 l2[[1]][[1]]
 
 ####################
-#Data frames!
+#Data frames!!!
 ####################
 #Dataframes are just lists where each element must be a vectors of the same length
 #Much of the data that we are interested in can easily be analyzed as a data frame
@@ -297,7 +299,6 @@ df <- data.frame(V1 = 1:10,
                  V4=c(rep("A",3),rep("B",7)),
                  V5=rnorm(10,0,5),
                  V6=paste0("X",c(1,1,2,3,1,3,1,2,3,4)))
-
 df
 
 #These are equivalent
@@ -320,7 +321,7 @@ df[c(3,6,8),c(2,4)]
 
 #Rows can be added to a data.frame by using rbind
 #Careful though!  This makes everything a character!
-test <- rbind(df, c(1,1,1,"A",1,"X2"))
+test <- rbind(df, c(1,1,1,"A",1, 1))
 str(test)
 
 #The "right" way to do this!
@@ -347,22 +348,28 @@ df
 #################################
 #summary five a five number summary of a continuous variables and a frequency table of a character or a factor
 #table returns a frequency table
-
 summary(df)
 table(df$V6)
 
 
 cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cubs_all_time.csv")
 
-sum(cubs$Attendance > 3000000)
-temp <- cubs$Attendance[!is.na(cubs$Attendance)]
-sum(temp > 3000000)
+# sum(cubs$Attendance > 3000000)
+# temp <- cubs$Attendance[!is.na(cubs$Attendance)]
+# sum(temp > 3000000)
 
 #Questions
-1. What is the average per game attendance over the entire history of the cubs? 
-2. Define run differential as Runs (R) minus runs allowed (RA).  What was the largest run differntial and what year did it occur? What was worst run differential and which year did it occur?
-3.  Can we do the same thing but with run differential PER GAME? 
+1. What is the average per game attendance over the entire history of the cubs ?
+2. Define run differential as Runs (R) minus runs allowed (RA).
+  2a. What was the largest run differntial and what year did it occur ?
+  2b.What was worst run differential and which year did it occur ?
+3.  Can we do the same thing but with run differential PER GAME ? 
 
+  
+
+  
+    
+  
 
 
 library(tidyverse)
