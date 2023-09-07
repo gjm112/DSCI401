@@ -33,13 +33,19 @@ x + 1
 
 #Vectors will repeat themselves
 c(1:3) + c(1:6)
+c(1,2,3,1,2,3) + c(1,2,3,4,5,6)
+
 
 #However, they must be multiples or you'll get a warning
 #This is NOT an error!
 c(1:3) + c(1:5)
+c(1,2,3,1,2) + c(1,2,3,4,5)
 
 #Check which elements are 0
 x == 0
+x == y
+#check is the whole object is the same!
+identical(x,0)
 #Class is logical
 class(x == 0)
 str(x == 0)
@@ -50,6 +56,7 @@ class((x == 0) + 0)
 
 #How many are 0's?
 sum(x == 0)
+mean(x == 0)
 
 #Logical statements can be combined
 #This returns TRUE/FALSE/NA
@@ -350,6 +357,13 @@ cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cub
 sum(cubs$Attendance > 3000000)
 temp <- cubs$Attendance[!is.na(cubs$Attendance)]
 sum(temp > 3000000)
+
+#Questions
+1. What is the average per game attendance over the entire history of the cubs? 
+2. Define run differential as Runs (R) minus runs allowed (RA).  What was the largest run differntial and what year did it occur? What was worst run differential and which year did it occur?
+3.  Can we do the same thing but with run differential PER GAME? 
+
+
 
 library(tidyverse)
 cubs %>% filter(Attendance > 3000000) %>% nrow()
