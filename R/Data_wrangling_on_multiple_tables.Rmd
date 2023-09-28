@@ -138,7 +138,18 @@ manny_tot %>% left_join(lg, by = c("yearID" = "yearID")) %>% mutate(fraction = H
 
 ```
 
+Use the Batting, Pitching, and People tables in the Lahman package to answer the following questions.
 
+ - Name every player in baseball history who has accumulated at least 300 home runs (HR) and at least 300 stolen bases (SB). You can find the first and last name of the player in the People data frame. Join this to your result along with the total home runs and total bases stolen for each of these elite players.
 
+ - Similarly, name every pitcher in baseball history who has accumulated at least 300 wins (W) and at least 3,000 strikeouts (SO).
 
+ - Identify the name and year of every player who has hit at least 50 home runs in a single season. Which player had the lowest batting average in that season?
+
+```{r}
+library(Lahman)
+head(People)
+head(Batting)
+head(Pitching)
+```
 

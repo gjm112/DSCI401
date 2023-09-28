@@ -120,10 +120,17 @@ tapply(my_CIACountries$area,my_CIACountries$high_educ, mean)
 
 ```
 
-##In class assignment: What first letter has the largest population? 
+##In class assignment: What first letter has the largest population? (Hint: the substring function will subset character strings)
+
+CIACountries %>% mutate(first_letter = substring(country,1,1)) %>% group_by(first_letter) %>% summarize(total_pop = sum(pop)) %>% arrange(-total_pop)
 
 #What proportion of countries produce any oil stratified by net users class? 
 
+CIACountries %>% filter(!is.na(net_users)) %>% mutate(any_oil = oil_prod > 0) %>% group_by(net_users) %>% summarise(p = mean(any_oil, na.rm = TRUE))    
+
+#Rank population, area, and gdp (largest to smallest).  Take the product of these three ranks.  What country has the smallest product of ranks?  
+
+CIACountries %>% mutate(rpop = rank(-pop), rgdp = rank(-gdp), rarea = rank(-area), prod = rpop*rgdp*rarea)  %>% arrange(prod) %>% head()
 
 
 
