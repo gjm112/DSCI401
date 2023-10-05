@@ -69,6 +69,10 @@ nrow(airports_pt)
 head(airports_pt)
 ```
 
+#Sebastian didn't clap for my 12th anniversary.  
+#Note to self: Fail him.  
+#Note to self: Sebastian corrected me......hmm
+
 ```{r}
 #If we do inner join
 nyc_dests_pt <- flights %>% 
@@ -98,9 +102,10 @@ nyc_dests %>%
     num_flights = n(),
     num_flights_pt = sum(!is.na(name)),
     num_flights_not_pt = sum(is.na(name))
-  )
+  ) 
 ```
 
+"A GREAT example of an outer join is joining batters and pitcher tables!" - Greg
 
 ```{r}
 library(Lahman)
@@ -114,7 +119,24 @@ People %>%
 
 #Question 1: How many years did Manny Ramirez hit more than 30 HRs?
 #Question 2: In terms of number of HRs hit, what AGES were his five best? 
-#Question 3: What fraction of total homeruns in the league did Manny hit in each of his seasons?   
+#Question 3: What fraction of total homeruns in the league did Manny hit in each of his seasons?  
+
+
+#Question 1: 
+Batting %>% filter(playerID == "ramirma02") %>%  group_by(playerID, yearID) %>% summarise(HR = sum(HR)) %>% filter(HR > 30) %>% left_join(People %>% select(playerID,nameFirst, nameLast), by = c("playerID"="playerID")) %>% arrange(-HR)
+
+#Question 2: 
+Batting %>% filter(playerID == "ramirma02") %>% group_by(playerID, yearID) %>% summarise(HR = sum(HR)) %>% left_join(People %>% select(playerID,birthYear,nameFirst, nameLast), by = c("playerID"="playerID")) %>% mutate(age = yearID - birthYear) %>% arrange(-HR)
+
+#Question 3
+#Manny homeruns
+mannyHR <- Batting %>% filter(playerID == "ramirma02") %>% group_by(playerID, yearID) %>% summarise(mannyHR = sum(HR))
+
+#Total homeruns
+totalHR <- Batting  %>% group_by(yearID) %>% summarise(totalHR = sum(HR))
+
+mannyHR %>% inner_join(totalHR, by = c("yearID" = "yearID")) %>% mutate(fracHR = mannyHR/totalHR) %>% arrange(-fracHR)
+
 
 ```
 
@@ -141,10 +163,9 @@ manny_tot %>% left_join(lg, by = c("yearID" = "yearID")) %>% mutate(fraction = H
 Use the Batting, Pitching, and People tables in the Lahman package to answer the following questions.
 
  - Name every player in baseball history who has accumulated at least 300 home runs (HR) and at least 300 stolen bases (SB). You can find the first and last name of the player in the People data frame. Join this to your result along with the total home runs and total bases stolen for each of these elite players.
-
  - Similarly, name every pitcher in baseball history who has accumulated at least 300 wins (W) and at least 3,000 strikeouts (SO).
-
- - Identify the name and year of every player who has hit at least 50 home runs in a single season. Which player had the lowest batting average in that season?
+ - Identify the name and year of every player who has hit at least 50 home runs in a single season. Which player had the lowest batting average in that season? (Note: Batting average is H/AB)
+ 
 
 ```{r}
 library(Lahman)

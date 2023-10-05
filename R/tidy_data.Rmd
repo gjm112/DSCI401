@@ -50,7 +50,7 @@ BP_wide %>%
   pivot_longer(-subject, names_to = "when", values_to = "sbp")
 
 BP_wide %>% 
-  pivot_longer(c(before, after), names_to = "when", values_to = "sbp")
+  pivot_longer(c(before, after), names_to = "when",values_to = "sbp")
 ```
 
 
@@ -59,7 +59,6 @@ In class exercises:
  - Find the most gender neutral name
  - What name saw the biggest drop from 1900 to 1950?  How about from 1950 to 2000?  
 ```{r}
-
 library(babynames)
 babynames
 #write.csv(babynames, file = "./data/babynames.csv", row.names = FALSE)
@@ -68,11 +67,31 @@ babynames
 
 ```{r}
 library(tidyverse)
-test <- babynames %>% group_by(name,sex) %>% summarise(total = sum(n)) %>% pivot_wider(names_from = sex, values_from = total) %>% mutate(ratio = M/(M+F)) %>% mutate(balanced = abs(ratio - .5)) %>% filter(M > 1000 & F > 1000) %>% arrange(balanced) 
+test <- babynames %>% group_by(name,sex) %>% summarise(total = sum(n)) %>% pivot_wider(names_from = sex, values_from = total) %>% mutate(ratio = M/(M+F)) %>% mutate(balanced = abs(ratio - .5)) %>% filter(M > 100000 & F > 100000) %>% arrange(balanced) 
+```
+```{r}
+#What name saw the biggest drop from 1900 to 1950?  How about from 1950 to 2000?  
+babynames %>% group_by(year, name) %>% summarise(n = sum(n)) %>% filter(year %in% c(1900,1950)) %>% pivot_wider(names_from = year, values_from = n) %>% mutate(drop = `1900` - `1950`) %>% arrange(-drop) 
+
+babynames %>% group_by(year, name) %>% summarise(n = sum(n)) %>% filter(year %in% c(1950,2000)) %>% pivot_wider(names_from = year, values_from = n) %>% mutate(drop = `1950` - `2000`) %>% arrange(drop) 
+
+babynames %>% group_by(year, name) %>% summarise(n = sum(n)) %>% filter(year %in% c(2000,2017)) %>% pivot_wider(names_from = year, values_from = n) %>% mutate(drop = `2000` - `2017`) %>% arrange(drop) 
 
 
 ```
 
+
+```{r}
+#Create a table with two rows (M and F) and each column is a decade (1880-1889, 1890-1899, 
+#etc) and the values in the table are the most popular name in that decade by sex.
+
+library(babynames)
+library(tidyverse)
+out <- babynames %>% mutate(decade = cut(year, seq(1869,2029,10))) %>% group_by(name,decade,sex) %>% summarise(n = sum(n)) %>% group_by(decade,sex) %>% summarise(topname = name[which.max(n)]) %>% pivot_wider(names_from = "decade", values_from = "topname")
+View(out)
+
+babynames %>% filter(year >= 2011) %>% group_by(name, sex) %>% summarise(tot = sum(n)) %>% arrange(-tot)
+```
 
 
 

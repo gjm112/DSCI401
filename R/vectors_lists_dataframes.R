@@ -367,21 +367,29 @@ cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cub
 
     
 #Solutions: 
-#1. 
+cubs <- read.csv("https://raw.githubusercontent.com/gjm112/DSCI401/main/data/cubs_all_time.csv")
+#1.
+sum(cubs$Attendance[!is.na(cubs$Attendance)])/sum(cubs$G[!is.na(cubs$Attendance)])
+
+#2. 
+cubs$diff <- cubs$R - cubs$RA
+#Largest diff
+max(cubs$diff)
+#Which year was the highest diff
+cubs$Year[which.max(cubs$diff)]
+#lowest Diff
+min(cubs$diff)
+#Which year was lowest diff
+cubs$Year[which.min(cubs$diff)]
+
+#3
+#Define run differential per game
+cubs$diff_per_G <- (cubs$R - cubs$RA)/cubs$G
+max(cubs$diff_per_G)
+cubs$Year[which.max(cubs$diff_per_G)]
+min(cubs$diff_per_G)
+cubs$Year[which.min(cubs$diff_per_G)]
+
+#The years of the max and min run differential per game are the same as overall run differential
   
   
-cubs %>% filter(Year >= 2013)
-
-  
-    
-  
-
-
-library(tidyverse)
-cubs %>% filter(Attendance > 3000000) %>% nrow()
-
-
-
-
-
-
