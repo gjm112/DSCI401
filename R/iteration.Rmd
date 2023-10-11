@@ -232,22 +232,12 @@ mn <- 1:nsim %>% map_dbl( ~ inside_circle()) %>% mean()
 
 
 ## In class question: 
- - Using the baby names data set, find the top 100 female baby names in 1950.  Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
+- Using the baby names data set, find the top 100 female baby names in 1950. Then for each name in this set, find the largest single year percentage drop for each of these names across any year from 1900 to present.  Which name has the largest single year percentage drop? 
+ 
+- What was the "most average" name in 1970? That is, compute the total number of births in 1970 and divide by the number of unique names.  Find the name that is closest to this mean.  Now repeat this for every year.  
  
  
- - What was the "most average" name in 1970? That is, compute the total number of births in 1970 and divide by the number of unique names.  Find the name that is closest to this mean.  Now repeat this for every year.  
- 
- 
-```{r}
-library(babynames)
-top100 <- babynames %>% filter(year == 1950 & sex == "F") %>% arrange(desc(n)) %>% head(100)
-top100$name
 
-test <- babynames %>% filter(name %in% top100$name & year >= 1900 & sex == "F") %>% group_by(name) %>% group_modify(~ data.frame(maxdiff = min(c(diff(.x$n))/.x$n[-length(.x$n)]))) %>% arrange(maxdiff)
-
-
-
-```
  
  
  
