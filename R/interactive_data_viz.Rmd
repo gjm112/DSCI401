@@ -153,7 +153,7 @@ Beatles %>%
   select(year, name, prop) %>%
   pivot_wider(names_from = name, values_from = prop) %>%
   dygraph(main = "Popularity of Beatles names over time") %>% 
-  dyRangeSelector(dateWindow = c("1940", "1980"))
+  dyRangeSelector(dateWindow = c("1900", "1980"))
 ```
 
 #In class exercises
@@ -163,6 +163,22 @@ ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
 #Make an interactive plot that shows pass rate by month with inspection type represented by color.  
 #Repeat this for a dygraph
 #Class: Come up with an interesting plot we can make and we'll all make it together.  Ask class for an idea.  
+
+
+#Create a plot with day of the week on the x-axis and the y-axis is number of inspections.  Line graph.  Stratified by facility type: restaurant, school, grocery store, other.  Make it interactive!
+ins <- read.csv("/Users/gregorymatthews/Dropbox/Public/inspections_clean.csv")
+
+sub <- ins %>% select(inspection_date,facility_type)  %>% mutate(facility_type = case_when(facility_type %in% c("bakery","catering","gas station","hospital","liquor","long term care") ~ "other", .default = facility_type), 
+dayofweek = wday(as.Date(inspection_date),abbr = TRUE, label = TRUE),
+dayofweeknum = wday(as.Date(inspection_date),abbr = TRUE, label = FALSE)) %>% group_by(facility_type,dayofweek, dayofweeknum) %>% summarise(n = n()) 
+               
+g <- ggplot(aes(x = dayofweek, y = n, color = facility_type), data = sub) + geom_point() + geom_line(aes(x = dayofweeknum, y = n, color = facility_type), data = sub)
+
+ggplotly(g)
+
+
+
+
 ```
 
 

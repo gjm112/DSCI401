@@ -1,0 +1,115 @@
+---
+title: "Spatial Tools for R"
+author: "Mena Whalen PhD"
+date: "DSCI 401, 11/06/2023"
+output: html_document
+---
+
+# Introduction to the sf Package
+
+The `sf` package in R, which stands for Simple Feature, is a versatile and user-friendly package for working with spatial data. In this document, we will explore the basic concepts and functionalities of the `sf` package, with an emphasis on practical examples.
+
+![SF Icons](img/sf_cuties.png)
+
+## What is the sf Package?
+
+The `sf` package is a modern and user-friendly tool for handling spatial data. It's more intuitive and integrates well with the tidyverse, making it an excellent choice for data analysis. The package operates using a standard table format and enhances data tables with spatial features.
+
+## Types of Spatial Features
+
+Spatial data often come in the form of point, polygon, or multipolygon features. These features define the spatial extent and geometry of geographical objects.
+
+![Simple Geometry](img/geometry.png)
+![Multigeometries](img/multi_geometry.png)
+
+## Obtaining Spatial Features
+
+You can obtain spatial features from different sources, including:
+1. Coords: You might already have longitude and latitude variables in your dataset.
+2. Shapefiles: These are common spatial data formats.
+3. Online sources: Websites like City Data Portal offer access to various shapefiles.
+
+### Creating Spatial Features from Coordinates
+
+To turn longitude and latitude variables into spatial features, use `st_as_sf` as follows:
+
+```{r, eval=FALSE}
+library(sf)
+
+# Replace "longitude" and "latitude" with your variable names
+sf_data <- st_as_sf(your_data_frame, coords = c("longitude", "latitude"))
+```
+
+This code transforms your data frame into a simple feature with spatial properties.
+
+### Reading Shapefiles
+Shapefiles are a common format for spatial data. To read them into R, use `st_read`:
+
+```{r, eval=FALSE}
+# Replace "filename.shp" with your file's path
+shapefile_data <- st_read("filename.shp")
+```
+
+### Example of sf data
+
+![](img/sf_data1.png)
+
+
+![](img/sf_data2.png)
+
+## Using Spatial Features
+Here's a quick reference to essential sf functions:
+
+* st_join: Joins two spatial objects based on spatial relationships.
+* st_distance: Calculates distances between spatial objects.
+* ... and more! Consult the [cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/sf.pdf) for additional functions.
+
+## Pros and Cons of Spatial Analysis
+**Benefit**: ggplot Integration
+ggplot can be easily used for spatial data visualization by adding `geom_sf()`. 
+
+For example:
+
+```{r, eval=FALSE}
+# Create a ggplot object with the sf data
+ggplot() +
+  geom_sf(data = sf_data, aes(fill = variable))
+
+```
+
+
+Data frame features (e.g., color, shape, fill) can still be applied to customize your plot.
+
+**Cons**: CRS Mismatch
+Coordinate Reference System (CRS) defines how the map is projected, and it's essential to consider when working with spatial data. The most common CRS is WGS84. Keep in mind that working with different CRS can lead to errors when combining spatial data. It's crucial to harmonize the CRS to ensure accurate analysis.
+
+## Practice
+
+Using the [food inspections dataset](https://data.cityofchicago.org/Health-Human-Services/Food-Inspections/4ijn-s7e5) and [this shapefile of Chicago community areas](https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Community-Areas-current-/cauq-8yn6) map the proportions of successful inspections for each community area.
+
+Steps should include:
+
+1. Turning spatial feature on for long and lats in inspections data.
+
+2. Read in shape file of neighborhoods.
+
+3. Join together two spatial dataset so that we know where each point is within which polygon (business locations in neighborhoods).
+
+4. Count up successful and total inspections per neighborhood.
+
+5. Making sure that the dataset has spatial features active, plot the percent of successful inspections for each neighborhood. 
+* bonus: use viridis and facet over years.
+
+```{r}
+
+```
+
+
+
+## Sources:
+
+* https://r-spatial.org/book/07-Introsf.html
+* http://www.geo.hunter.cuny.edu/~ssun/R-Spatial/intro.html
+* https://r-spatial.github.io/sf/
+* https://heima.hafro.is/~einarhj/older/spatialr/pre_sf.html
+* https://bookdown.org/robinlovelace/geocompr/spatial-class.html
