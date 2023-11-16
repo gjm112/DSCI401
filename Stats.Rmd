@@ -1,0 +1,91 @@
+---
+title: "Stats!"
+author: "Gregory J. Matthews"
+date: "2023-11-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Probability 
+  - What is it?  
+  - Some rules
+  
+$P(A^c) = 1 - P(A)$
+
+$P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+
+$P(A \cap B) = P(A) P(B)$ if $A \perp B$
+
+$P(A) = P(A|B)P(B) + P(A|B^c)P(B)$ 
+
+$P(A | B) = \frac{P(A\cap B)}{P(A)}$ 
+
+$P(A\cap B) = P(A|B)P(B)$
+
+$P(B | A) = \frac{P(A|B)P(B)}{P(A|B)P(B) + P(A|B^c)P(B^c)}$ 
+
+## Distributions
+  - pdf vs cdf
+  - Normal
+  - Binomial
+  - Others
+
+CDF of X: $F(x) = P(X \le x)$
+
+PDF of X: $f(x) = P(X = x)$ ONLY IN DISCRETE CASE!
+
+```{r}
+x <- seq(-4,4,0.01)
+plot(x, dnorm(x), type = "l", main = "pdf Normal")
+plot(x, pnorm(x), type = "l", main = "cdf Normal")
+```
+```{r}
+x <- c(0:10)
+plot(x, dbinom(x,10,0.5),  main = "pdf binomial")
+x <- seq(0,10,0.01)
+plot(x, pbinom(x,10,0.5), type = "l",  main = "cdf binomial")
+```
+```{r}
+# Let X ~ normal(0,1)
+# Let Y ~ binomial(10,0.5)
+# Let B ~ binomial(1,0.5)
+# Let Z | B ~ normal(B, 1)
+#Find probability that X > 1 give X > 0.  
+#That is find P(X > 1 | X > 0). 
+
+#Find P(Y = 5 AND -1 < X < 1)
+
+# Find P(Z > 0)
+
+```
+
+
+## Inference
+  - Point Estimates
+  - Confidence intervals
+  - Hypothesis testing
+    - Permutation testing
+    - t-test
+    - $\chi^2$-squared test
+    - p-values!
+    
+```{r}
+#Lets do some simulations about point estimates and look at their properties 
+#sample mean vs sample median
+
+#Let's look at confidence interval coverage for a proportion. 
+
+# Let's do hypothesis testing "by hand".  We'll do a t-test by hand.
+
+#Let's do a permutation test
+
+# Let's talk about p-values.  
+
+
+
+```
+   
+
+
