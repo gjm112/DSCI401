@@ -8,29 +8,35 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-## Probability 
-  - What is it?  
-  - Some rules
-  
+
+Topics: F-test and t-test with regards to regression Propensity score matching RMSE and predicted vs actual values.\
+Design of Experiments and Split plot designs.
+
+## Probability
+
+-   What is it?\
+-   Some rules
+
 $P(A^c) = 1 - P(A)$
 
 $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
 
 $P(A \cap B) = P(A) P(B)$ if $A \perp B$
 
-$P(A) = P(A|B)P(B) + P(A|B^c)P(B)$ 
+$P(A) = P(A|B)P(B) + P(A|B^c)P(B)$
 
-$P(A | B) = \frac{P(A\cap B)}{P(A)}$ 
+$P(A | B) = \frac{P(A\cap B)}{P(A)}$
 
 $P(A\cap B) = P(A|B)P(B)$
 
-$P(B | A) = \frac{P(A|B)P(B)}{P(A|B)P(B) + P(A|B^c)P(B^c)}$ 
+$P(B | A) = \frac{P(A|B)P(B)}{P(A|B)P(B) + P(A|B^c)P(B^c)}$
 
 ## Distributions
-  - pdf vs cdf
-  - Normal
-  - Binomial
-  - Others
+
+-   pdf vs cdf
+-   Normal
+-   Binomial
+-   Others
 
 CDF of X: $F(x) = P(X \le x)$
 
@@ -41,12 +47,14 @@ x <- seq(-4,4,0.01)
 plot(x, dnorm(x), type = "l", main = "pdf Normal")
 plot(x, pnorm(x), type = "l", main = "cdf Normal")
 ```
+
 ```{r}
 x <- c(0:10)
 plot(x, dbinom(x,10,0.5),  main = "pdf binomial")
 x <- seq(0,10,0.01)
 plot(x, pbinom(x,10,0.5), type = "l",  main = "cdf binomial")
 ```
+
 ```{r}
 # Let X ~ normal(0,1)
 # Let Y ~ binomial(10,0.5)
@@ -61,16 +69,16 @@ plot(x, pbinom(x,10,0.5), type = "l",  main = "cdf binomial")
 
 ```
 
-
 ## Inference
-  - Point Estimates
-  - Confidence intervals
-  - Hypothesis testing
-    - Permutation testing
-    - t-test
-    - $\chi^2$-squared test
-    - p-values!
-    
+
+-   Point Estimates
+-   Confidence intervals
+-   Hypothesis testing
+    -   Permutation testing
+    -   t-test
+    -   $\chi^2$-squared test
+    -   p-values!
+
 ```{r}
 #Lets do some simulations about point estimates and look at their properties 
 #sample mean vs sample median
@@ -86,6 +94,52 @@ plot(x, pbinom(x,10,0.5), type = "l",  main = "cdf binomial")
 
 
 ```
-   
+
+```{r}
+#Two simulation studies 
+#1 hypothesis testing 
+set.seed(2023)
+mu <- 49 
+sigma <- 5
+n <- 20 
+mu0 <- 49
+nsim <- 100000
+null <- rep(NA, nsim)
+
+for (i in 1:nsim) {
+  print(i)
+  d <- rnorm(n, mu, sigma)
+  null[i] <- (mean(d) - mu0) / (sd(d) / sqrt(n))
+}
+hist(null)
+
+mean(null < 0)
+mean(null < 1)
+mean(null < 2)
+mean(null < 3)
+
+pt(0,19)
+pt(1,19)
+pt(2,19)
+pt(3,19)
+
+pnorm(0)
+pnorm(1)
+pnorm(2)
+pnorm(3)
 
 
+
+#
+
+
+
+
+
+#2 prop CI
+
+
+
+
+
+```
