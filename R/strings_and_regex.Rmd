@@ -1,0 +1,257 @@
+---
+title: "regex"
+author: "Gregory J. Matthews"
+date: "2023-12-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Strings
+## Making strings
+```{r}
+string1 <- "This is a string"
+string2 <- 'You can do it with single "quotes" too' 
+
+string1
+string2
+
+#Note:
+writeLines(string2)
+```
+
+
+```{r}
+x <- c("\"", "\\")
+x
+#What's really in there
+writeLines(x)
+```
+
+
+```{r}
+#special characters
+#tab
+"\t"
+#newline
+"\n"
+
+#Example Haiku
+aging <- "Aging Curve, please end\nSomeday it will be published\nMy god end this  please"
+
+aging
+writeLines(aging)
+```
+## Vectors of strings
+```{r}
+#vector of strings
+numbers <- c("one","two","three")
+
+library(stringr)
+#base R
+nchar(numbers)
+#stringr version
+str_length(numbers)
+
+#Base R paste
+paste0("x","y")
+
+#Combining strings
+str_c("x", "y")
+
+#Recycling
+paste0("prefix-", c("a", "b", "c"), "-suffix")
+str_c("prefix-", c("a", "b", "c"), "-suffix")
+
+#Tan Ho example 
+#This recycles
+paste0("x",1:5,"y",1:3)
+#this doesn't recycle
+#str_c("x",1:5,"y",1:3)
+
+
+##Collapse
+#Base R
+paste0(c("x","y"), collapse = "")
+#tidyverse
+str_c(c("x", "y"), collapse = "")
+
+```
+
+## Subsetting strings
+
+```{r}
+x <- c("Apple", "Banana", "Pear")
+substring(x, 1, 3)
+#Substring doesn't work with negative indices (indexes?)
+substring(x, -3, -1)
+#But this does!!!
+substring(x, nchar(x) - 2, nchar(x))
+
+#Tidyverse
+str_sub(x, 1, 3)
+#negative numbers count backwards from end
+str_sub(x, -3, -1)
+
+#what happens here?
+substring("a",1,5)
+str_sub("a",1,5)
+
+```
+# Regular Expressions
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "an")
+str_view_all(x, "an")
+
+#using . to match any character
+str_view(x, ".a.")
+
+#How do I find the actual .
+dot <- "\\."
+
+# But the expression itself only contains one:
+writeLines(dot)
+
+# And this tells R to look for an explicit .
+str_view(c("abc", "a.c", "bef"), "a.c")
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+
+
+#What does this match?  
+#"\..\..\.."
+
+```
+
+## Anchors 
+
+```{r}
+#Match at the beginning with ^
+#Match at the end with $
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+str_view(x, "a$")
+
+#To remember which is which, try this mnemonic which I learned from Evan Misshula: if you begin with power (^), you end up with money ($).
+
+
+#Anchor at beginning and end
+x <- c("apple pie", "apple", "apple cake")
+str_view(x, "apple")
+str_view(x, "^apple$")
+
+#Now you try: 
+#Get all the words that being with y
+#All the words that end with x
+#All the words that are exactly 3 letters long (don't use str_length!)
+#All the words with 7 or more letters
+str_view(stringr::words, "regex_here")
+
+
+```
+
+## Character classes and alternatives
+ - \\d: matches any digit. Also \[0-9] or \[:digits:]
+ - \\s: matches any whitespace (e.g. space, tab, newline).
+ - \[abc]: matches a, b, or c.
+ - \[^abc]: matches anything except a, b, or c.
+
+```{r}
+#Instead of backslach you have this option
+## Look for a literal character that normally has special meaning in a regex
+str_view(c("abc", "a.c", "a*c", "a c"), "a[.]c")
+str_view(c("abc", "a.c", "a*c", "a c"), ".[*]c")
+str_view(c("abc", "a.c", "a*c", "a c"), "a[ ]")
+
+#These must ALWAYS bw handled with back slash escpaes: ] \ ^ -
+
+#Alternation
+str_view(c("grey", "gray"), "gr(e|a)y")
+
+
+#Now you try"
+#Start with a vowel.
+#That only contain consonants. (Hint: thinking about matching "not"-vowels.)
+#End with "ed", but not with "eed".
+#End with "ing" or "ise".
+#Empirically verify the rule “i before e except after c”.
+#Is "q" always followed by a "u"?
+```
+
+
+## Repetition
+ - ?: 0 or 1
+ - +: 1 or more
+ - *: 0 or more
+```{r}
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+str_view(x, "CC+")
+str_view(x, 'C[LX]+')
+str_view(x, 'C[LX]*')
+```
+
+You can also specify matches exactly: 
+ - {n}: exactly n
+ - {n,}: n or more
+ - {,m}: at most m
+ - {n,m}: between n and m
+ 
+```{r}
+str_view(x, "C{2}")
+str_view(x, "C{2,}")
+str_view(x, "C{2,3}")
+```
+
+
+Now you try:
+Describe in words what these regular expressions match: (read carefully to see if I’m using a regular expression or a string that defines a regular expression.)
+ - ^.*$
+ - \d{4}-\d{2}-\d{2}
+```{r}
+#Create regular expressions to find all words that:
+#1. Start with three consonants.
+#2. Have three or more vowels in a row.
+
+```
+
+## Grouping and backreferences
+```{r}
+str_view(fruit, "(..)\\1", match = TRUE)
+
+str_view(words, "(.)\\1")
+str_view(words, "(.)\\1(.)\\2")
+```
+
+"Don’t forget that you’re in a programming language and you have other tools at your disposal. Instead of creating one complex regular expression, it’s often easier to write a series of simpler regexps. If you get stuck trying to create a single regexp that solves your problem, take a step back and think if you could break the problem down into smaller pieces, solving each challenge before moving onto the next one." - Hadley Wickham
+
+
+```{r}
+library(babynames)
+library(tidyverse)
+nameM <- babynames %>% filter(sex == "M" ) %>% arrange(name) %>%  distinct(name) %>% unlist() 
+
+str_view(nameM, "Greg.*y$")
+
+#ChrisTheeCrappy question
+#1. Find all names long that are longer than 5 characters (Note: don't use str_length!)
+#2. Words that have the same letter two in a row.  
+
+
+
+
+
+str_view(nameM, "^[^A]")
+
+
+```
+
+
+
+
+
+
+
+
