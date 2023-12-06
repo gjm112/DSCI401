@@ -173,11 +173,17 @@ str_view(c("grey", "gray"), "gr(e|a)y")
 
 #Now you try"
 #Start with a vowel.
+str_view(words, "^[aeiou]")
 #That only contain consonants. (Hint: thinking about matching "not"-vowels.)
+str_view(words, "[aeiou]", match = FALSE)
 #End with "ed", but not with "eed".
+str_view(words, "[abcdfghijklmnopqrstuvwxyz]ed$")
 #End with "ing" or "ise".
+str_view(words, "ing$|ise$")
 #Empirically verify the rule “i before e except after c”.
+str_view(words, "cie")
 #Is "q" always followed by a "u"?
+str_view(words, "q[letters[-21]]")
 ```
 
 
@@ -205,49 +211,27 @@ str_view(x, "C{2,}")
 str_view(x, "C{2,3}")
 ```
 
+Just a note: "By default these matches are “greedy”: they will match the longest string possible. You can make them “lazy”, matching the shortest string possible by putting a ? after them. This is an advanced feature of regular expressions, but it’s useful to know that it exists."  - https://r4ds.had.co.nz/strings.html
 
-Now you try:
-Describe in words what these regular expressions match: (read carefully to see if I’m using a regular expression or a string that defines a regular expression.)
- - ^.*$
- - \d{4}-\d{2}-\d{2}
 ```{r}
+#Now you try
+#What will these match? 
+#^.*$
+#\d{4}-\d{2}-\d{2}
+
+#Exercises
 #Create regular expressions to find all words that:
 #1. Start with three consonants.
 #2. Have three or more vowels in a row.
 
-```
-
-## Grouping and backreferences
-```{r}
-str_view(fruit, "(..)\\1", match = TRUE)
-
-str_view(words, "(.)\\1")
-str_view(words, "(.)\\1(.)\\2")
-```
-
-"Don’t forget that you’re in a programming language and you have other tools at your disposal. Instead of creating one complex regular expression, it’s often easier to write a series of simpler regexps. If you get stuck trying to create a single regexp that solves your problem, take a step back and think if you could break the problem down into smaller pieces, solving each challenge before moving onto the next one." - Hadley Wickham
 
 
-```{r}
-library(babynames)
-library(tidyverse)
-nameM <- babynames %>% filter(sex == "M" ) %>% arrange(name) %>%  distinct(name) %>% unlist() 
+library(babynames) 
+nam <- babynames %>% filter(sex == "M") %>% pull(name) %>% distinct(names)
 
-str_view(nameM, "Greg.*y$")
-
-#ChrisTheeCrappy question
-#1. Find all names long that are longer than 5 characters (Note: don't use str_length!)
-#2. Words that have the same letter two in a row.  
-
-
-
-
-
-str_view(nameM, "^[^A]")
 
 
 ```
-
 
 
 
