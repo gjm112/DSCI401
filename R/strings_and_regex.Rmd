@@ -213,6 +213,7 @@ str_view(x, "C{2,3}")
 
 Just a note: "By default these matches are “greedy”: they will match the longest string possible. You can make them “lazy”, matching the shortest string possible by putting a ? after them. This is an advanced feature of regular expressions, but it’s useful to know that it exists."  - https://r4ds.had.co.nz/strings.html
 
+
 ```{r}
 #Now you try
 #What will these match? 
@@ -223,17 +224,71 @@ Just a note: "By default these matches are “greedy”: they will match the lon
 #Create regular expressions to find all words that:
 #1. Start with three consonants.
 #2. Have three or more vowels in a row.
-
-
-
 library(babynames) 
-nam <- babynames %>% filter(sex == "M") %>% pull(name) %>% distinct(names)
+library(tidyverse)
+nam <- babynames %>% distinct(name)  %>% pull(name) %>% str_to_lower()
 
+#1. Find all the names that end with xx or zz
+#2. Find all the names that contain either the word deer or sleigh
+#3. Find all the names containing rudolf or rudolph
+#4. Find all the names containing santa or claus
+#5. Find all the names that contain "sant" followed immediately by a vowel and the name ends in a vowel and begins with a consonant.  
+
+
+
+#Note: To return a logical vector: str_detect
 
 
 ```
 
 
+
+
+## Grouping and backreferences
+
+"Parentheses also create a numbered capturing group (number 1, 2 etc.). A capturing group stores the part of the string matched by the part of the regular expression inside the parentheses. You can refer to the same text as previously matched by a capturing group with backreferences, like \1, \2 etc."  - Hadley Wickham
+ 
+```{r}
+library(stringr)
+str_view(fruit, "(..)\\1", match = TRUE)
+
+#Three in a row
+str_view(nam,"(.)\\1\\1")
+
+#What will this do?  
+str_view(nam,"(.).\\1.\\1")
+
+#what will this do?  
+str_view(nam,"(.)(.)(.).*\\3\\2\\1")
+#How about this?  
+str_view(nam,"(.)(.)(.).*\\1\\2\\3")
+
+#Exercises
+#Find names that start and end with the same letter. 
+#Names that contain a repeated pair or letters. 
+#Contains one letter repeated in at least three places.  
+```
+
+## Tools 
+
+
+```{r}
+#str_detect: returns a logical vector
+#str_count: Counts the number of matches
+mean(str_detect(words, "[aeiou]$"))
+mean(str_detect(nam, "[aeiou]$"))
+nam[str_detect(nam,"greg")]
+
+x <- c("apple", "banana", "pear")
+str_count(x, "a")
+
+#Note: matches never overlap: 
+str_count("abababa", "aba")
+str_count_all("abababa", "aba")
+
+
+#Lets name up some more questions with the names data set!
+```
 
 
 
